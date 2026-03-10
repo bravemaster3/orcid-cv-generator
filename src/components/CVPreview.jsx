@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Download, ChevronLeft, RotateCcw, Coffee, Loader2 } from 'lucide-react'
+import { Download, ChevronLeft, RotateCcw, Coffee, Loader2, FileText } from 'lucide-react'
 import { pdf } from '@react-pdf/renderer'
 import { createElement } from 'react'
 import { pdfTemplates } from '../templates/pdf'
 import { generatePDF } from '../utils/pdfGenerator'
+import { generateWord } from '../utils/wordGenerator'
 import { prepareDataForTemplate } from '../utils/dataTransformer'
 
 function CVPreview({
@@ -16,6 +17,7 @@ function CVPreview({
   onReset
 }) {
   const [generating, setGenerating] = useState(false)
+  const [generatingWord, setGeneratingWord] = useState(false)
   const [pdfUrl, setPdfUrl] = useState(null)
   const [loadingPreview, setLoadingPreview] = useState(true)
 
@@ -78,6 +80,18 @@ function CVPreview({
     }
   }
 
+  const handleDownloadWord = async () => {
+    setGeneratingWord(true)
+    try {
+      await generateWord(cvData, template)
+    } catch (error) {
+      console.error('Error generating Word document:', error)
+      alert('Failed to generate Word document. Please try again.')
+    } finally {
+      setGeneratingWord(false)
+    }
+  }
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="card">
@@ -91,6 +105,23 @@ function CVPreview({
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={handleDownloadWord}
+              disabled={generatingWord || loadingPreview}
+              className="btn-secondary flex items-center gap-2"
+            >
+              {generatingWord ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <FileText className="w-5 h-5" />
+                  Download Word
+                </>
+              )}
+            </button>
             <button
               onClick={handleDownload}
               disabled={generating || loadingPreview}

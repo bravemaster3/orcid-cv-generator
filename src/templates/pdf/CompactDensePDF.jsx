@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
 
 const styles = StyleSheet.create({
   page: {
@@ -124,6 +125,10 @@ const styles = StyleSheet.create({
 
 function CompactDensePDF({ data }) {
   const { personal, photo, employment, education, publications, funding } = data
+  const jobs = normalizeEmployment(employment)
+  const edus = normalizeEducation(education)
+  const pubs = normalizePublications(publications)
+  const grants = normalizeFunding(funding)
 
   return (
     <Document>
@@ -131,7 +136,6 @@ function CompactDensePDF({ data }) {
         {/* Header */}
         <View style={styles.header}>
           {photo && <Image src={photo} style={styles.photo} />}
-          
           <View style={styles.headerText}>
             <Text style={styles.name}>{personal?.fullName}</Text>
             {personal?.emails && personal.emails.length > 0 && (
@@ -143,9 +147,7 @@ function CompactDensePDF({ data }) {
             {personal?.keywords && personal.keywords.length > 0 && (
               <View style={styles.keywordsContainer}>
                 {personal.keywords.map((keyword, idx) => (
-                  <Text key={idx} style={styles.keyword}>
-                    {keyword}
-                  </Text>
+                  <Text key={idx} style={styles.keyword}>{keyword}</Text>
                 ))}
               </View>
             )}
@@ -154,75 +156,54 @@ function CompactDensePDF({ data }) {
 
         {/* Two Column Layout */}
         <View style={styles.twoColumn}>
-          {/* Left Column */}
           <View style={styles.column}>
-            {/* Experience */}
-            {employment && employment.length > 0 && (
+            {jobs.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Experience</Text>
-                {employment.map((job, idx) => (
+                {jobs.map((job, idx) => (
                   <View key={idx} style={styles.item} wrap={false}>
-                    <Text style={styles.itemTitle}>{job.role}</Text>
+                    <Text style={styles.itemTitle}>{job.title}</Text>
                     <Text style={styles.itemOrg}>{job.organization}</Text>
-                    <Text style={styles.itemDate}>
-                      {job.startDate} - {job.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemDate}>{job.dateRange}</Text>
                   </View>
                 ))}
               </View>
             )}
-
-            {/* Education */}
-            {education && education.length > 0 && (
+            {edus.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Education</Text>
-                {education.map((edu, idx) => (
+                {edus.map((edu, idx) => (
                   <View key={idx} style={styles.item} wrap={false}>
                     <Text style={styles.itemTitle}>{edu.title}</Text>
                     <Text style={styles.itemOrg}>{edu.organization}</Text>
-                    <Text style={styles.itemDate}>
-                      {edu.startDate} - {edu.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemDate}>{edu.dateRange}</Text>
                   </View>
                 ))}
               </View>
             )}
-
-            {/* Funding */}
-            {funding && funding.length > 0 && (
+            {grants.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Funding</Text>
-                {funding.map((grant, idx) => (
+                {grants.map((grant, idx) => (
                   <View key={idx} style={styles.item} wrap={false}>
                     <Text style={styles.itemTitle}>{grant.title}</Text>
                     <Text style={styles.itemOrg}>{grant.organization}</Text>
-                    <Text style={styles.itemDate}>
-                      {grant.startDate}
-                      {grant.endDate && ` - ${grant.endDate}`}
-                    </Text>
+                    <Text style={styles.itemDate}>{grant.dateRange}</Text>
                   </View>
                 ))}
               </View>
             )}
           </View>
 
-          {/* Right Column - Publications */}
           <View style={styles.column}>
-            {publications && publications.length > 0 && (
+            {pubs.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Publications</Text>
-                {publications.map((pub, idx) => (
+                {pubs.map((pub, idx) => (
                   <View key={idx} style={styles.publicationItem} wrap={false}>
                     <Text style={styles.publicationTitle}>{pub.title}</Text>
-                    {pub.journalTitle && (
-                      <Text style={styles.publicationJournal}>
-                        {pub.journalTitle}
-                      </Text>
-                    )}
-                    <Text style={styles.publicationMeta}>
-                      {pub.year}
-                      {pub.type && ` • ${pub.type}`}
-                    </Text>
+                    {pub.journal && <Text style={styles.publicationJournal}>{pub.journal}</Text>}
+                    {pub.meta && <Text style={styles.publicationMeta}>{pub.meta}</Text>}
                   </View>
                 ))}
               </View>

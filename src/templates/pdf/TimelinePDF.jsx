@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
+import { buildTimelineItems, normalizePublications, normalizeFunding } from '../shared/cvData'
 
 const styles = StyleSheet.create({
   page: {
@@ -151,28 +152,9 @@ const styles = StyleSheet.create({
 
 function TimelinePDF({ data }) {
   const { personal, photo, employment, education, publications, funding } = data
-
-  // Combine and sort employment and education by date
-  const timelineItems = []
-  
-  if (employment) {
-    employment.forEach(item => {
-      timelineItems.push({ ...item, type: 'employment' })
-    })
-  }
-  
-  if (education) {
-    education.forEach(item => {
-      timelineItems.push({ ...item, type: 'education' })
-    })
-  }
-
-  // Sort by start date (newest first)
-  timelineItems.sort((a, b) => {
-    const dateA = a.startDate || ''
-    const dateB = b.startDate || ''
-    return dateB.localeCompare(dateA)
-  })
+  const timelineItems = buildTimelineItems(employment, education)
+  const pubs = normalizePublications(publications)
+  const grants = normalizeFunding(funding)
 
   return (
     <Document>
@@ -208,21 +190,14 @@ function TimelinePDF({ data }) {
             <Text style={styles.sectionTitle}>Career Timeline</Text>
             {timelineItems.map((item, idx) => (
               <View key={idx} style={styles.timelineItem} wrap={false}>
-                <Text style={styles.timelineDate}>
-                  {item.startDate}
-                  {item.endDate ? ` - ${item.endDate}` : ' - Present'}
-                </Text>
+                <Text style={styles.timelineDate}>{item.dateRange}</Text>
                 <View style={styles.timelineLine}>
                   <View style={styles.timelineDot} />
                 </View>
                 <View style={styles.timelineContent}>
-                  <Text style={styles.timelineTitle}>
-                    {item.role || item.title}
-                  </Text>
+                  <Text style={styles.timelineTitle}>{item.title}</Text>
                   <Text style={styles.timelineOrg}>{item.organization}</Text>
-                  {item.department && (
-                    <Text style={styles.timelineDept}>{item.department}</Text>
-                  )}
+                  {item.department && <Text style={styles.timelineDept}>{item.department}</Text>}
                 </View>
               </View>
             ))}
@@ -230,38 +205,28 @@ function TimelinePDF({ data }) {
         )}
 
         {/* Publications */}
-        {publications && publications.length > 0 && (
+        {pubs.length > 0 && (
           <View style={styles.publicationsSection}>
             <Text style={styles.sectionTitle}>Selected Publications</Text>
-            {publications.slice(0, 10).map((pub, idx) => (
+            {pubs.slice(0, 10).map((pub, idx) => (
               <View key={idx} style={styles.publicationItem} wrap={false}>
                 <Text style={styles.publicationTitle}>{pub.title}</Text>
-                {pub.journalTitle && (
-                  <Text style={styles.publicationJournal}>
-                    {pub.journalTitle}
-                  </Text>
-                )}
-                <Text style={styles.publicationMeta}>
-                  {pub.year}
-                  {pub.type && ` • ${pub.type}`}
-                </Text>
+                {pub.journal && <Text style={styles.publicationJournal}>{pub.journal}</Text>}
+                {pub.meta && <Text style={styles.publicationMeta}>{pub.meta}</Text>}
               </View>
             ))}
           </View>
         )}
 
         {/* Funding */}
-        {funding && funding.length > 0 && (
+        {grants.length > 0 && (
           <View style={styles.publicationsSection}>
             <Text style={styles.sectionTitle}>Grants & Funding</Text>
-            {funding.map((grant, idx) => (
+            {grants.map((grant, idx) => (
               <View key={idx} style={styles.publicationItem} wrap={false}>
                 <Text style={styles.publicationTitle}>{grant.title}</Text>
                 <Text style={styles.timelineOrg}>{grant.organization}</Text>
-                <Text style={styles.publicationMeta}>
-                  {grant.startDate}
-                  {grant.endDate && ` - ${grant.endDate}`}
-                </Text>
+                <Text style={styles.publicationMeta}>{grant.dateRange}</Text>
               </View>
             ))}
           </View>

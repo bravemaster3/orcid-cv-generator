@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
 
 const styles = StyleSheet.create({
   page: {
@@ -144,6 +145,10 @@ const styles = StyleSheet.create({
 
 function AcademicClassicPDF({ data }) {
   const { personal, photo, employment, education, publications, funding } = data
+  const jobs = normalizeEmployment(employment)
+  const edus = normalizeEducation(education)
+  const pubs = normalizePublications(publications)
+  const grants = normalizeFunding(funding)
 
   return (
     <Document>
@@ -162,39 +167,31 @@ function AcademicClassicPDF({ data }) {
           </View>
         )}
 
-        {/* Biography */}
         {personal?.biography && (
           <Text style={styles.biography}>{personal.biography}</Text>
         )}
 
-        {/* Research Interests */}
         {personal?.keywords && personal.keywords.length > 0 && (
           <View style={styles.researchInterests} wrap={false}>
             <Text style={styles.researchTitle}>Research Interests</Text>
-            <Text style={styles.keywords}>
-              {personal.keywords.join(' • ')}
-            </Text>
+            <Text style={styles.keywords}>{personal.keywords.join(' • ')}</Text>
           </View>
         )}
 
         {/* Education */}
-        {education && education.length > 0 && (
+        {edus.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Education</Text>
-            {education.map((edu, idx) => (
+            {edus.map((edu, idx) => (
               <View key={idx} style={styles.item} wrap={false}>
                 <View style={styles.itemHeader}>
                   <View style={styles.itemLeft}>
                     <Text style={styles.itemTitle}>{edu.title}</Text>
                     <Text style={styles.itemOrg}>{edu.organization}</Text>
-                    {edu.department && (
-                      <Text style={styles.itemDept}>{edu.department}</Text>
-                    )}
+                    {edu.department && <Text style={styles.itemDept}>{edu.department}</Text>}
                   </View>
                   <View>
-                    <Text style={styles.itemDate}>
-                      {edu.startDate} - {edu.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemDate}>{edu.dateRange}</Text>
                   </View>
                 </View>
               </View>
@@ -203,23 +200,19 @@ function AcademicClassicPDF({ data }) {
         )}
 
         {/* Employment */}
-        {employment && employment.length > 0 && (
+        {jobs.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Academic Appointments</Text>
-            {employment.map((job, idx) => (
+            {jobs.map((job, idx) => (
               <View key={idx} style={styles.item} wrap={false}>
                 <View style={styles.itemHeader}>
                   <View style={styles.itemLeft}>
-                    <Text style={styles.itemTitle}>{job.role}</Text>
+                    <Text style={styles.itemTitle}>{job.title}</Text>
                     <Text style={styles.itemOrg}>{job.organization}</Text>
-                    {job.department && (
-                      <Text style={styles.itemDept}>{job.department}</Text>
-                    )}
+                    {job.department && <Text style={styles.itemDept}>{job.department}</Text>}
                   </View>
                   <View>
-                    <Text style={styles.itemDate}>
-                      {job.startDate} - {job.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemDate}>{job.dateRange}</Text>
                   </View>
                 </View>
               </View>
@@ -228,19 +221,17 @@ function AcademicClassicPDF({ data }) {
         )}
 
         {/* Publications */}
-        {publications && publications.length > 0 && (
+        {pubs.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Publications</Text>
             <View style={styles.publicationsList}>
-              {publications.map((pub, idx) => (
+              {pubs.map((pub, idx) => (
                 <View key={idx} style={styles.publicationItem} wrap={false}>
-                  <Text style={styles.publicationNumber}>{idx + 1}.</Text>
+                  <Text style={styles.publicationNumber}>{pub.number}.</Text>
                   <Text style={styles.publicationText}>
                     <Text style={styles.publicationTitle}>{pub.title}.</Text>
-                    {pub.journalTitle && (
-                      <Text style={styles.publicationJournal}>
-                        {' '}{pub.journalTitle}.
-                      </Text>
+                    {pub.journal && (
+                      <Text style={styles.publicationJournal}> {pub.journal}.</Text>
                     )}
                     {pub.year && <Text> ({pub.year}).</Text>}
                   </Text>
@@ -251,10 +242,10 @@ function AcademicClassicPDF({ data }) {
         )}
 
         {/* Funding */}
-        {funding && funding.length > 0 && (
+        {grants.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Grants & Funding</Text>
-            {funding.map((grant, idx) => (
+            {grants.map((grant, idx) => (
               <View key={idx} style={styles.item} wrap={false}>
                 <View style={styles.itemHeader}>
                   <View style={styles.itemLeft}>
@@ -262,10 +253,7 @@ function AcademicClassicPDF({ data }) {
                     <Text style={styles.itemOrg}>{grant.organization}</Text>
                   </View>
                   <View>
-                    <Text style={styles.itemDate}>
-                      {grant.startDate}
-                      {grant.endDate && ` - ${grant.endDate}`}
-                    </Text>
+                    <Text style={styles.itemDate}>{grant.dateRange}</Text>
                   </View>
                 </View>
               </View>

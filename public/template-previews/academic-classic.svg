@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 594" width="420" height="594">
+  <rect width="420" height="594" fill="#ffffff"/>
+
+  <!-- Header centered -->
+  <rect x="110" y="30" width="200" height="16" rx="3" fill="#000000"/>
+  <rect x="150" y="52" width="120" height="9" rx="2" fill="#555555"/>
+  <rect x="30" y="68" width="360" height="3" fill="#000000"/>
+  <rect x="30" y="73" width="360" height="1" fill="#000000"/>
+
+  <!-- Biography -->
+  <rect x="40" y="86" width="340" height="8" rx="2" fill="#333333"/>
+  <rect x="40" y="99" width="320" height="8" rx="2" fill="#333333"/>
+  <rect x="40" y="112" width="280" height="8" rx="2" fill="#333333"/>
+
+  <!-- Research Interests -->
+  <rect x="40" y="130" width="130" height="10" rx="2" fill="#000000"/>
+  <rect x="40" y="146" width="300" height="8" rx="2" fill="#444444"/>
+
+  <!-- Education section -->
+  <rect x="40" y="168" width="80" height="10" rx="2" fill="#000000"/>
+  <rect x="40" y="182" width="360" height="1" fill="#000000"/>
+  <!-- Item 1 -->
+  <rect x="55" y="190" width="160" height="9" rx="2" fill="#000000"/>
+  <rect x="315" y="190" width="90" height="7" rx="2" fill="#333333"/>
+  <rect x="55" y="204" width="130" height="8" rx="2" fill="#555555"/>
+  <!-- Item 2 -->
+  <rect x="55" y="220" width="140" height="9" rx="2" fill="#000000"/>
+  <rect x="315" y="220" width="90" height="7" rx="2" fill="#333333"/>
+  <rect x="55" y="234" width="110" height="8" rx="2" fill="#555555"/>
+
+  <!-- Academic Appointments -->
+  <rect x="40" y="255" width="155" height="10" rx="2" fill="#000000"/>
+  <rect x="40" y="269" width="360" height="1" fill="#000000"/>
+  <rect x="55" y="277" width="150" height="9" rx="2" fill="#000000"/>
+  <rect x="315" y="277" width="90" height="7" rx="2" fill="#333333"/>
+  <rect x="55" y="291" width="140" height="8" rx="2" fill="#555555"/>
+  <rect x="55" y="307" width="130" height="9" rx="2" fill="#000000"/>
+  <rect x="315" y="307" width="90" height="7" rx="2" fill="#333333"/>
+  <rect x="55" y="321" width="120" height="8" rx="2" fill="#555555"/>
+
+  <!-- Publications -->
+  <rect x="40" y="344" width="95" height="10" rx="2" fill="#000000"/>
+  <rect x="40" y="358" width="360" height="1" fill="#000000"/>
+  <!-- Numbered items -->
+  <rect x="55" y="366" width="15" height="8" rx="1" fill="#333333"/>
+  <rect x="76" y="366" width="250" height="8" rx="2" fill="#000000"/>
+  <rect x="76" y="379" width="180" height="7" rx="2" fill="#555555"/>
+  <rect x="55" y="394" width="15" height="8" rx="1" fill="#333333"/>
+  <rect x="76" y="394" width="230" height="8" rx="2" fill="#000000"/>
+  <rect x="76" y="407" width="160" height="7" rx="2" fill="#555555"/>
+  <rect x="55" y="422" width="15" height="8" rx="1" fill="#333333"/>
+  <rect x="76" y="422" width="240" height="8" rx="2" fill="#000000"/>
+  <rect x="76" y="435" width="170" height="7" rx="2" fill="#555555"/>
+
+  <!-- Page number -->
+  <rect x="195" y="574" width="30" height="7" rx="2" fill="#d1d5db"/>
+</svg>

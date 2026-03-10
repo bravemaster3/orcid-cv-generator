@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
 
 const styles = StyleSheet.create({
   page: {
@@ -113,18 +114,20 @@ const styles = StyleSheet.create({
 
 function SwissMinimalPDF({ data }) {
   const { personal, photo, employment, education, publications, funding } = data
+  const jobs = normalizeEmployment(employment)
+  const edus = normalizeEducation(education)
+  const pubs = normalizePublications(publications)
+  const grants = normalizeFunding(funding)
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Photo - top right */}
         {photo && (
           <View style={styles.photoSection}>
             <Image src={photo} style={styles.photo} />
           </View>
         )}
 
-        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.name}>{personal?.fullName}</Text>
           {personal?.emails && personal.emails.length > 0 && (
@@ -136,9 +139,7 @@ function SwissMinimalPDF({ data }) {
           {personal?.keywords && personal.keywords.length > 0 && (
             <View style={styles.keywordsContainer}>
               {personal.keywords.map((keyword, idx) => (
-                <Text key={idx} style={styles.keyword}>
-                  {keyword}
-                </Text>
+                <Text key={idx} style={styles.keyword}>{keyword}</Text>
               ))}
             </View>
           )}
@@ -146,57 +147,43 @@ function SwissMinimalPDF({ data }) {
 
         <View style={styles.divider} />
 
-        {/* Two Column Layout */}
         <View style={styles.grid}>
-          {/* Left Column */}
           <View style={styles.gridItem}>
-            {/* Experience */}
-            {employment && employment.length > 0 && (
+            {jobs.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Experience</Text>
-                {employment.map((job, idx) => (
+                {jobs.map((job, idx) => (
                   <View key={idx} style={styles.item} wrap={false}>
-                    <Text style={styles.itemTitle}>{job.role}</Text>
+                    <Text style={styles.itemTitle}>{job.title}</Text>
                     <Text style={styles.itemSubtitle}>{job.organization}</Text>
-                    <Text style={styles.itemDate}>
-                      {job.startDate} — {job.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemDate}>{job.dateRange}</Text>
                   </View>
                 ))}
               </View>
             )}
-
-            {/* Education */}
-            {education && education.length > 0 && (
+            {edus.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Education</Text>
-                {education.map((edu, idx) => (
+                {edus.map((edu, idx) => (
                   <View key={idx} style={styles.item} wrap={false}>
                     <Text style={styles.itemTitle}>{edu.title}</Text>
                     <Text style={styles.itemSubtitle}>{edu.organization}</Text>
-                    <Text style={styles.itemDate}>
-                      {edu.startDate} — {edu.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemDate}>{edu.dateRange}</Text>
                   </View>
                 ))}
               </View>
             )}
           </View>
 
-          {/* Right Column */}
           <View style={styles.gridItem}>
-            {/* Funding */}
-            {funding && funding.length > 0 && (
+            {grants.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>Funding</Text>
-                {funding.map((grant, idx) => (
+                {grants.map((grant, idx) => (
                   <View key={idx} style={styles.item} wrap={false}>
                     <Text style={styles.itemTitle}>{grant.title}</Text>
                     <Text style={styles.itemSubtitle}>{grant.organization}</Text>
-                    <Text style={styles.itemDate}>
-                      {grant.startDate}
-                      {grant.endDate && ` — ${grant.endDate}`}
-                    </Text>
+                    <Text style={styles.itemDate}>{grant.dateRange}</Text>
                   </View>
                 ))}
               </View>
@@ -204,17 +191,12 @@ function SwissMinimalPDF({ data }) {
           </View>
         </View>
 
-        {/* Publications - Full Width */}
-        {publications && publications.length > 0 && (
+        {pubs.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Selected Publications</Text>
-            {publications.slice(0, 8).map((pub, idx) => (
+            {pubs.slice(0, 8).map((pub, idx) => (
               <View key={idx} style={styles.publicationItem} wrap={false}>
-                <Text style={styles.publicationText}>
-                  {pub.title}
-                  {pub.journalTitle && `. ${pub.journalTitle}`}
-                  {pub.year && `. ${pub.year}`}
-                </Text>
+                <Text style={styles.publicationText}>{pub.fullCitation}</Text>
               </View>
             ))}
           </View>

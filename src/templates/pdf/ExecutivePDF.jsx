@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
 
 const styles = StyleSheet.create({
   page: {
@@ -140,16 +141,19 @@ const styles = StyleSheet.create({
 
 function ExecutivePDF({ data }) {
   const { personal, photo, employment, education, publications, funding } = data
+  const jobs = normalizeEmployment(employment)
+  const edus = normalizeEducation(education)
+  const pubs = normalizePublications(publications)
+  const grants = normalizeFunding(funding)
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
       <View style={styles.pageContent}>
-{/* Sidebar */}
-<View style={styles.sidebar}>
+        {/* Sidebar */}
+        <View style={styles.sidebar}>
           {photo && <Image src={photo} style={styles.sidebarPhoto} />}
-          
-          {/* 1. ABOUT FIRST */}
+
           {personal?.biography && (
             <View style={styles.sidebarSection}>
               <Text style={styles.sidebarTitle}>About</Text>
@@ -157,39 +161,28 @@ function ExecutivePDF({ data }) {
             </View>
           )}
 
-          {/* 2. EDUCATION SECOND */}
-          {education && education.length > 0 && (
+          {edus.length > 0 && (
             <View style={styles.sidebarSection} wrap={true}>
               <Text style={styles.sidebarTitle}>Education</Text>
-              {education.map((edu, idx) => (
+              {edus.map((edu, idx) => (
                 <View key={idx} style={{ marginBottom: 15 }} wrap={false}>
-                  <Text style={{ ...styles.sidebarText, fontWeight: 'bold', marginBottom: 4 }}>
-                    {edu.title}
-                  </Text>
-                  <Text style={styles.sidebarText}>
-                    {edu.organization}
-                  </Text>
-                  <Text style={{ ...styles.sidebarText, fontSize: 9, marginTop: 2 }}>
-                    {edu.startDate} - {edu.endDate || 'Present'}
-                  </Text>
+                  <Text style={{ ...styles.sidebarText, fontWeight: 'bold', marginBottom: 4 }}>{edu.title}</Text>
+                  <Text style={styles.sidebarText}>{edu.organization}</Text>
+                  <Text style={{ ...styles.sidebarText, fontSize: 9, marginTop: 2 }}>{edu.dateRange}</Text>
                 </View>
               ))}
             </View>
           )}
 
-          {/* 3. EXPERTISE THIRD (Keywords) */}
           {personal?.keywords && personal.keywords.length > 0 && (
             <View style={styles.sidebarSection} wrap={false}>
               <Text style={styles.sidebarTitle}>Expertise</Text>
               {personal.keywords.map((keyword, idx) => (
-                <Text key={idx} style={styles.keyword}>
-                  {keyword}
-                </Text>
+                <Text key={idx} style={styles.keyword}>{keyword}</Text>
               ))}
             </View>
           )}
-          
-          {/* 4. CONTACT LAST */}
+
           {personal?.emails && personal.emails.length > 0 && (
             <View style={styles.sidebarSection}>
               <Text style={styles.sidebarTitle}>Contact</Text>
@@ -203,60 +196,43 @@ function ExecutivePDF({ data }) {
           <Text style={styles.name}>{personal?.fullName}</Text>
           <Text style={styles.tagline}>Professional Profile</Text>
 
-          {/* Experience */}
-          {employment && employment.length > 0 && (
+          {jobs.length > 0 && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Experience</Text>
-              {employment.map((job, idx) => (
+              {jobs.map((job, idx) => (
                 <View key={idx} style={styles.item} wrap={false}>
                   <View style={styles.itemHeader}>
-                    <Text style={styles.itemTitle}>{job.role}</Text>
-                    <Text style={styles.itemDate}>
-                      {job.startDate} - {job.endDate || 'Present'}
-                    </Text>
+                    <Text style={styles.itemTitle}>{job.title}</Text>
+                    <Text style={styles.itemDate}>{job.dateRange}</Text>
                   </View>
                   <Text style={styles.itemOrg}>{job.organization}</Text>
-                  {job.department && (
-                    <Text style={styles.itemDept}>{job.department}</Text>
-                  )}
+                  {job.department && <Text style={styles.itemDept}>{job.department}</Text>}
                 </View>
               ))}
             </View>
           )}
 
-          {/* Publications */}
-          {publications && publications.length > 0 && (
+          {pubs.length > 0 && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Publications</Text>
-              {publications.map((pub, idx) => (
+              {pubs.map((pub, idx) => (
                 <View key={idx} style={styles.publicationItem} wrap={false}>
                   <Text style={styles.publicationTitle}>{pub.title}</Text>
-                  {pub.journalTitle && (
-                    <Text style={styles.publicationJournal}>
-                      {pub.journalTitle}
-                    </Text>
-                  )}
-                  <Text style={styles.publicationMeta}>
-                    {pub.year}
-                    {pub.type && ` • ${pub.type}`}
-                  </Text>
+                  {pub.journal && <Text style={styles.publicationJournal}>{pub.journal}</Text>}
+                  {pub.meta && <Text style={styles.publicationMeta}>{pub.meta}</Text>}
                 </View>
               ))}
             </View>
           )}
 
-          {/* Funding */}
-          {funding && funding.length > 0 && (
+          {grants.length > 0 && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Grants & Funding</Text>
-              {funding.map((grant, idx) => (
+              {grants.map((grant, idx) => (
                 <View key={idx} style={styles.item} wrap={false}>
                   <View style={styles.itemHeader}>
                     <Text style={styles.itemTitle}>{grant.title}</Text>
-                    <Text style={styles.itemDate}>
-                      {grant.startDate}
-                      {grant.endDate && ` - ${grant.endDate}`}
-                    </Text>
+                    <Text style={styles.itemDate}>{grant.dateRange}</Text>
                   </View>
                   <Text style={styles.itemOrg}>{grant.organization}</Text>
                 </View>
