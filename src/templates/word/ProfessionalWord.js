@@ -120,13 +120,20 @@ export function buildProfessionalWord(data, photoData) {
     children.push(sectionTitle('Publications'))
     pubs.forEach(pub => {
       children.push(new Paragraph({
-        children: [new TextRun({ text: pub.title, color: '1e293b', size: 20 })],
+        children: [
+          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: '1e293b', size: 20 })] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: '1e293b', size: 20 })] : []),
+          new TextRun({ text: pub.title, bold: true, color: '1e293b', size: 20 }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: BLUE, size: 20 })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: '1e293b', size: 20 })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: '1e293b', size: 20 })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: '1e293b', size: 20 })] : []),
+          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: LIGHT, size: 20 })] : []),
+        ],
         border: { left: { style: BorderStyle.THICK, size: 12, color: 'e2e8f0' } },
         indent: { left: 160 },
-        spacing: { before: 100, after: 40 },
+        spacing: { before: 100, after: 80 },
       }))
-      if (pub.journal) children.push(new Paragraph({ children: [new TextRun({ text: pub.journal, color: BLUE, italics: true, size: 18 })], indent: { left: 160 }, spacing: { after: 40 } }))
-      if (pub.meta) children.push(new Paragraph({ children: [new TextRun({ text: pub.meta, color: LIGHT, size: 18 })], indent: { left: 160 }, spacing: { after: 80 } }))
     })
   }
 

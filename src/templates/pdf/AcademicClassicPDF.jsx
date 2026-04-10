@@ -229,11 +229,14 @@ function AcademicClassicPDF({ data }) {
                 <View key={idx} style={styles.publicationItem} wrap={false}>
                   <Text style={styles.publicationNumber}>{pub.number}.</Text>
                   <Text style={styles.publicationText}>
-                    <Text style={styles.publicationTitle}>{pub.title}.</Text>
-                    {pub.journal && (
-                      <Text style={styles.publicationJournal}> {pub.journal}.</Text>
-                    )}
-                    {pub.year && <Text> ({pub.year}).</Text>}
+                    {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
+                    {pub.year ? `(${pub.year}): ` : ''}
+                    <Text style={styles.publicationTitle}>{pub.title}</Text>
+                    {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
+                    {pub.volume ? `, ${pub.volume}` : ''}
+                    {pub.issue ? `(${pub.issue})` : ''}
+                    {pub.pages ? `, ${pub.pages}` : ''}
+                    {pub.doi ? `. DOI: ${pub.doi}` : ''}
                   </Text>
                 </View>
               ))}

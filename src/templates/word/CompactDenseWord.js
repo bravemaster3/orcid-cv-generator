@@ -118,21 +118,18 @@ export function buildCompactDenseWord(data, photoData) {
     rightChildren.push(sectionTitle('Publications'))
     pubs.forEach(pub => {
       rightChildren.push(new Paragraph({
-        children: [new TextRun({ text: pub.title, color: DARK, size: 16 })],
-        spacing: { before: 60, after: 20 },
+        children: [
+          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: DARK, size: 16 })] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: DARK, size: 16 })] : []),
+          new TextRun({ text: pub.title, bold: true, color: DARK, size: 16 }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: MID, size: 16 })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: DARK, size: 16 })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: DARK, size: 16 })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: DARK, size: 16 })] : []),
+          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: LIGHT, size: 16 })] : []),
+        ],
+        spacing: { before: 60, after: 60 },
       }))
-      if (pub.journal) {
-        rightChildren.push(new Paragraph({
-          children: [new TextRun({ text: pub.journal, color: MID, italics: true, size: 14 })],
-          spacing: { after: 20 },
-        }))
-      }
-      if (pub.meta) {
-        rightChildren.push(new Paragraph({
-          children: [new TextRun({ text: pub.meta, color: LIGHT, size: 14 })],
-          spacing: { after: 60 },
-        }))
-      }
     })
   }
 

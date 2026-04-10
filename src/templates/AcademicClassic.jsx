@@ -121,11 +121,14 @@ function AcademicClassic({ data }) {
             <ol className="list-decimal ml-8 space-y-3">
               {publications.map((pub, idx) => (
                 <li key={idx} className="text-gray-800 pl-2">
-                  <span className="font-medium">{pub.title}.</span>
-                  {pub.journalTitle && (
-                    <span className="italic"> {pub.journalTitle}.</span>
-                  )}
-                  {pub.year && <span> ({pub.year}).</span>}
+                  {pub.authors && pub.authors.length > 0 && `${pub.authors.join(', ')} `}
+                  {pub.year && `(${pub.year}): `}
+                  <span className="font-medium">{pub.title}</span>
+                  {pub.journalTitle && <span className="italic">. {pub.journalTitle}</span>}
+                  {pub.volume && `, ${pub.volume}`}
+                  {pub.issue && `(${pub.issue})`}
+                  {pub.pages && `, ${pub.pages}`}
+                  {pub.doi && <>. DOI: <a href={`https://doi.org/${pub.doi}`} className="underline text-gray-600">{pub.doi}</a></>}
                 </li>
               ))}
             </ol>

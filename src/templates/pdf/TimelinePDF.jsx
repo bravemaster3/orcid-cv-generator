@@ -210,9 +210,15 @@ function TimelinePDF({ data }) {
             <Text style={styles.sectionTitle}>Selected Publications</Text>
             {pubs.slice(0, 10).map((pub, idx) => (
               <View key={idx} style={styles.publicationItem} wrap={false}>
-                <Text style={styles.publicationTitle}>{pub.title}</Text>
-                {pub.journal && <Text style={styles.publicationJournal}>{pub.journal}</Text>}
-                {pub.meta && <Text style={styles.publicationMeta}>{pub.meta}</Text>}
+                <Text style={styles.publicationTitle}>
+                  {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
+                  {pub.year ? `(${pub.year}): ` : ''}{pub.title}
+                  {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
+                  {pub.volume ? `, ${pub.volume}` : ''}
+                  {pub.issue ? `(${pub.issue})` : ''}
+                  {pub.pages ? `, ${pub.pages}` : ''}
+                  {pub.doi ? `. DOI: ${pub.doi}` : ''}
+                </Text>
               </View>
             ))}
           </View>

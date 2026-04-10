@@ -109,21 +109,17 @@ function ModernMinimal({ data }) {
             <h2 className="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-300">
               Publications
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {publications.map((pub, idx) => (
-                <div key={idx} className="text-sm">
-                  <div className="font-medium text-gray-900">
-                    {pub.title}
-                  </div>
-                  {pub.journalTitle && (
-                    <div className="text-gray-700 italic">
-                      {pub.journalTitle}
-                    </div>
-                  )}
-                  <div className="text-gray-600">
-                    {pub.year}
-                    {pub.type && ` • ${pub.type}`}
-                  </div>
+                <div key={idx} className="text-sm text-gray-800">
+                  {pub.authors && pub.authors.length > 0 && `${pub.authors.join(', ')} `}
+                  {pub.year && `(${pub.year}): `}
+                  <span className="font-medium text-gray-900">{pub.title}</span>
+                  {pub.journalTitle && <span className="italic text-gray-700">. {pub.journalTitle}</span>}
+                  {pub.volume && `, ${pub.volume}`}
+                  {pub.issue && `(${pub.issue})`}
+                  {pub.pages && `, ${pub.pages}`}
+                  {pub.doi && <>. DOI: <a href={`https://doi.org/${pub.doi}`} className="underline text-gray-500">{pub.doi}</a></>}
                 </div>
               ))}
             </div>

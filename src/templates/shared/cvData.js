@@ -31,8 +31,11 @@ export function normalizePublications(pubs = []) {
     journal: pub.journalTitle || '',
     year: pub.year || '',
     type: pub.type || '',
-    meta: [pub.year, pub.type].filter(Boolean).join(' • '),
-    fullCitation: [pub.title, pub.journalTitle, pub.year].filter(Boolean).join('. ') + '.',
+    authors: pub.authors || [],
+    volume: pub.volume || null,
+    issue: pub.issue || null,
+    pages: pub.pages || null,
+    doi: pub.doi || null,
   }))
 }
 

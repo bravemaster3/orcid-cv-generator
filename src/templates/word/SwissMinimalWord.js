@@ -144,7 +144,16 @@ export function buildSwissMinimalWord(data, photoData) {
     children.push(sectionTitle('Selected Publications'))
     pubs.slice(0, 8).forEach(pub => {
       children.push(new Paragraph({
-        children: [new TextRun({ text: pub.fullCitation, color: DARK, size: 18 })],
+        children: [
+          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: DARK, size: 18 })] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: DARK, size: 18 })] : []),
+          new TextRun({ text: pub.title, bold: true, color: DARK, size: 18 }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: DARK, size: 18 })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: DARK, size: 18 })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: DARK, size: 18 })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: DARK, size: 18 })] : []),
+          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: DARK, size: 18 })] : []),
+        ],
         spacing: { before: 80, after: 80 },
       }))
     })

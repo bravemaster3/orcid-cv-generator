@@ -124,9 +124,14 @@ export function buildAcademicClassicWord(data, photoData) {
       children.push(new Paragraph({
         children: [
           new TextRun({ text: `${pub.number}.  `, size: 20, font: FONT }),
+          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, size: 20, font: FONT })] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, size: 20, font: FONT })] : []),
           new TextRun({ text: pub.title, bold: true, size: 20, font: FONT }),
           ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, size: 20, font: FONT })] : []),
-          ...(pub.year ? [new TextRun({ text: `. (${pub.year}).`, size: 20, font: FONT })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, size: 20, font: FONT })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, size: 20, font: FONT })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, size: 20, font: FONT })] : []),
+          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, size: 20, font: FONT })] : []),
         ],
         indent: { left: 300, hanging: 300 },
         spacing: { before: 80, after: 80 },

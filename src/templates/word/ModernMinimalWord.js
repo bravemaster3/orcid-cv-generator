@@ -120,11 +120,18 @@ export function buildModernMinimalWord(data, photoData) {
     children.push(sectionTitle('Publications'))
     pubs.forEach(pub => {
       children.push(new Paragraph({
-        children: [new TextRun({ text: pub.title, bold: true, color: DARK, size: 20 })],
-        spacing: { before: 100, after: 40 },
+        children: [
+          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: DARK, size: 20 })] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: DARK, size: 20 })] : []),
+          new TextRun({ text: pub.title, bold: true, color: DARK, size: 20 }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: DARK, size: 20 })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: DARK, size: 20 })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: DARK, size: 20 })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: DARK, size: 20 })] : []),
+          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: DARK, size: 20 })] : []),
+        ],
+        spacing: { before: 100, after: 80 },
       }))
-      if (pub.journal) children.push(subLine(pub.journal, true))
-      if (pub.meta) children.push(subLine(pub.meta))
     })
   }
   if (grants.length > 0) {

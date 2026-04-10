@@ -118,21 +118,17 @@ function TechStartup({ data }) {
             <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
               <span className="text-blue-600">📚</span> Publications
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {publications.map((pub, idx) => (
-                <div key={idx} className="pb-4 border-b border-gray-100 last:border-0">
-                  <div className="font-semibold text-gray-900 mb-1">
-                    {pub.title}
-                  </div>
-                  {pub.journalTitle && (
-                    <div className="text-blue-600 text-sm mb-1">
-                      {pub.journalTitle}
-                    </div>
-                  )}
-                  <div className="text-gray-600 text-sm">
-                    {pub.year}
-                    {pub.type && ` • ${pub.type}`}
-                  </div>
+                <div key={idx} className="pb-3 border-b border-gray-100 last:border-0 text-sm text-gray-700">
+                  {pub.authors && pub.authors.length > 0 && `${pub.authors.join(', ')} `}
+                  {pub.year && `(${pub.year}): `}
+                  <span className="font-semibold text-gray-900">{pub.title}</span>
+                  {pub.journalTitle && <span className="italic text-blue-600">. {pub.journalTitle}</span>}
+                  {pub.volume && `, ${pub.volume}`}
+                  {pub.issue && `(${pub.issue})`}
+                  {pub.pages && `, ${pub.pages}`}
+                  {pub.doi && <>. DOI: <a href={`https://doi.org/${pub.doi}`} className="underline text-gray-500">{pub.doi}</a></>}
                 </div>
               ))}
             </div>

@@ -132,25 +132,20 @@ export function buildCreativeDesignerWord(data, photoData) {
     children.push(sectionTitle('Publications'))
     pubs.forEach(pub => {
       children.push(new Paragraph({
-        children: [new TextRun({ text: pub.title, bold: true, color: AMBER_MID, size: 20 })],
+        children: [
+          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: AMBER_MID, size: 20 })] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: AMBER_MID, size: 20 })] : []),
+          new TextRun({ text: pub.title, bold: true, color: AMBER_MID, size: 20 }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: AMBER, size: 20 })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: AMBER_MID, size: 20 })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: AMBER_MID, size: 20 })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: AMBER_MID, size: 20 })] : []),
+          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: AMBER_LIGHT, size: 20 })] : []),
+        ],
         border: { left: { style: BorderStyle.THICK, size: 12, color: 'fbbf24' } },
         indent: { left: 120 },
-        spacing: { before: 80, after: 40 },
+        spacing: { before: 80, after: 80 },
       }))
-      if (pub.journal) {
-        children.push(new Paragraph({
-          children: [new TextRun({ text: pub.journal, color: AMBER, italics: true, size: 18 })],
-          indent: { left: 120 },
-          spacing: { after: 40 },
-        }))
-      }
-      if (pub.meta) {
-        children.push(new Paragraph({
-          children: [new TextRun({ text: pub.meta, color: AMBER_LIGHT, size: 18 })],
-          indent: { left: 120 },
-          spacing: { after: 80 },
-        }))
-      }
     })
   }
 

@@ -1,71 +1,78 @@
 const ORCID_API_BASE = 'https://pub.orcid.org/v3.0'
+const OPENALEX_API_BASE = 'https://api.openalex.org/works'
 
 export async function fetchOrcidData(orcidId) {
   try {
     // Clean ORCID ID
     const cleanId = orcidId.replace(/\s+/g, '').trim()
-    
-    // Fetch person data
-    const personResponse = await fetch(`${ORCID_API_BASE}/${cleanId}/person`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
+
+    // Fetch all ORCID endpoints in parallel
+    const [personResponse, worksResponse, employmentResponse, educationResponse, fundingResponse] = await Promise.all([
+      fetch(`${ORCID_API_BASE}/${cleanId}/person`, { headers: { 'Accept': 'application/json' } }),
+      fetch(`${ORCID_API_BASE}/${cleanId}/works`, { headers: { 'Accept': 'application/json' } }),
+      fetch(`${ORCID_API_BASE}/${cleanId}/employments`, { headers: { 'Accept': 'application/json' } }),
+      fetch(`${ORCID_API_BASE}/${cleanId}/educations`, { headers: { 'Accept': 'application/json' } }),
+      fetch(`${ORCID_API_BASE}/${cleanId}/fundings`, { headers: { 'Accept': 'application/json' } }),
+    ])
 
     if (!personResponse.ok) {
       throw new Error('Failed to fetch ORCID data. Please check the ORCID ID.')
     }
 
-    const personData = await personResponse.json()
+    const [personData, worksData, employmentData, educationData, fundingData] = await Promise.all([
+      personResponse.json(),
+      worksResponse.ok ? worksResponse.json() : null,
+      employmentResponse.ok ? employmentResponse.json() : null,
+      educationResponse.ok ? educationResponse.json() : null,
+      fundingResponse.ok ? fundingResponse.json() : null,
+    ])
 
-    // Fetch works (publications)
-    const worksResponse = await fetch(`${ORCID_API_BASE}/${cleanId}/works`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    const worksData = worksResponse.ok ? await worksResponse.json() : null
+    const works = transformWorks(worksData)
 
-    // Fetch employments
-    const employmentResponse = await fetch(`${ORCID_API_BASE}/${cleanId}/employments`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    const employmentData = employmentResponse.ok ? await employmentResponse.json() : null
+    // Enrich works with author/bibliographic data from OpenAlex (for works that have a DOI)
+    const enrichedWorks = await enrichWorksWithOpenAlex(works)
 
-    // Fetch education
-    const educationResponse = await fetch(`${ORCID_API_BASE}/${cleanId}/educations`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    const educationData = educationResponse.ok ? await educationResponse.json() : null
-
-    // Fetch funding
-    const fundingResponse = await fetch(`${ORCID_API_BASE}/${cleanId}/fundings`, {
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    const fundingData = fundingResponse.ok ? await fundingResponse.json() : null
-
-    // Transform the data
-    return transformOrcidData(personData, worksData, employmentData, educationData, fundingData)
+    return {
+      person: transformPerson(personData),
+      works: enrichedWorks,
+      employment: transformEmployment(employmentData),
+      education: transformEducation(educationData),
+      funding: transformFunding(fundingData),
+    }
   } catch (error) {
     console.error('Error fetching ORCID data:', error)
     throw error
   }
 }
 
-function transformOrcidData(person, works, employment, education, funding) {
-  return {
-    person: transformPerson(person),
-    works: transformWorks(works),
-    employment: transformEmployment(employment),
-    education: transformEducation(education),
-    funding: transformFunding(funding)
-  }
+async function enrichWorksWithOpenAlex(works) {
+  const results = await Promise.all(
+    works.map(async work => {
+      if (!work.doi) return work
+      try {
+        const res = await fetch(
+          `${OPENALEX_API_BASE}/https://doi.org/${work.doi}?select=authorships,biblio&mailto=contact@example.com`
+        )
+        if (!res.ok) return work
+        const json = await res.json()
+        const authors = (json.authorships || []).map(a => a.author?.display_name).filter(Boolean)
+        const biblio = json.biblio || {}
+        const pages = biblio.first_page && biblio.last_page
+          ? `${biblio.first_page}–${biblio.last_page}`
+          : (biblio.first_page || null)
+        return {
+          ...work,
+          authors,
+          volume: biblio.volume || null,
+          issue: biblio.issue || null,
+          pages,
+        }
+      } catch {
+        return work
+      }
+    })
+  )
+  return results
 }
 
 function transformPerson(data) {
@@ -93,13 +100,21 @@ function transformWorks(data) {
     const work = group['work-summary']?.[0]
     if (!work) return null
 
+    // Check group-level external IDs first (more complete), then fall back to work-summary level
+    const groupIds = group['external-ids']?.['external-id'] || []
+    const workIds = work['external-ids']?.['external-id'] || []
+    const allIds = [...groupIds, ...workIds]
+    const doiEntry = allIds.find(id => id['external-id-type'] === 'doi')
+    const doi = doiEntry?.['external-id-value'] || null
+
     return {
       title: work.title?.title?.value || 'Untitled',
       journalTitle: work['journal-title']?.value,
       year: work['publication-date']?.year?.value,
       type: work.type,
       url: work.url?.value,
-      externalIds: work['external-ids']?.['external-id'] || []
+      doi,
+      authors: [],
     }
   }).filter(Boolean)
 }
@@ -157,12 +172,12 @@ function transformFunding(data) {
 
 function formatDate(dateObj) {
   if (!dateObj) return null
-  
+
   const year = dateObj.year?.value
   const month = dateObj.month?.value
-  
+
   if (!year) return null
   if (!month) return year
-  
+
   return `${month}/${year}`
 }

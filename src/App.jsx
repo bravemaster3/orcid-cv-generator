@@ -22,7 +22,7 @@ function Layout({ children }) {
 
 function App() {
   return (
-    <HashRouter>
+    <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
