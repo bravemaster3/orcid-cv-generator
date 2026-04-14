@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Menu, X, FileText, Sun, Moon, Monitor } from 'lucide-react'
+import { Menu, X, FileText, Sun, Moon, Monitor, Star, Github } from 'lucide-react'
 
 const links = [
   { to: '/', label: 'Generator' },
@@ -21,7 +21,15 @@ function ThemeIcon({ mode }) {
 
 function Navbar({ darkMode }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [stars, setStars] = useState(null)
   const { mode, setTheme } = darkMode || {}
+
+  useEffect(() => {
+    fetch('https://api.github.com/repos/bravemaster3/orcid-cv-generator')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setStars(data.stargazers_count) })
+      .catch(() => {})
+  }, [])
 
   const cycleTheme = () => {
     const next = MODES[(MODES.indexOf(mode) + 1) % MODES.length]
@@ -40,7 +48,7 @@ function Navbar({ darkMode }) {
             <span>ORCID CV Generator</span>
           </NavLink>
 
-          {/* Desktop links + theme toggle */}
+          {/* Desktop links + star + theme toggle */}
           <div className="hidden md:flex items-center gap-1">
             {links.map(({ to, label }) => (
               <NavLink
@@ -59,11 +67,28 @@ function Navbar({ darkMode }) {
               </NavLink>
             ))}
 
+            {/* GitHub star button */}
+            <a
+              href="https://github.com/bravemaster3/orcid-cv-generator"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-2 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-yellow-400 hover:text-yellow-600 dark:hover:text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors"
+              title="Star on GitHub"
+            >
+              <Star className="w-4 h-4" />
+              <span>Star</span>
+              {stars !== null && (
+                <span className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs px-1.5 py-0.5 rounded-full font-mono">
+                  {stars >= 1000 ? `${(stars / 1000).toFixed(1)}k` : stars}
+                </span>
+              )}
+            </a>
+
             {/* Theme toggle */}
             <button
               onClick={cycleTheme}
               title={`Theme: ${themeLabel} (click to cycle)`}
-              className="ml-2 p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-100 transition-colors"
+              className="ml-1 p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-100 transition-colors"
               aria-label={`Switch theme (current: ${themeLabel})`}
             >
               <ThemeIcon mode={mode} />
@@ -110,6 +135,21 @@ function Navbar({ darkMode }) {
                 {label}
               </NavLink>
             ))}
+            <a
+              href="https://github.com/bravemaster3/orcid-cv-generator"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <Github className="w-4 h-4" />
+              Star on GitHub
+              {stars !== null && (
+                <span className="ml-auto bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs px-1.5 py-0.5 rounded-full font-mono">
+                  {stars >= 1000 ? `${(stars / 1000).toFixed(1)}k` : stars}
+                </span>
+              )}
+            </a>
           </div>
         )}
       </div>
