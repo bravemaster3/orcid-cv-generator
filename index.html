@@ -6,8 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Generate beautiful CVs from your ORCID profile" />
     <title>ORCID CV Generator</title>
-    <script type="module" crossorigin src="/assets/index-B0XJ1ZOM.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index--bXjWFIJ.css">
+    <script>
+      (function () {
+        var stored = localStorage.getItem('orcidcv_theme');
+        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-DFwOlqCN.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Zcjm3R0V.css">
   </head>
   <body>
     <div id="root"></div>
