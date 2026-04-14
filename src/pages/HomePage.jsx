@@ -9,7 +9,7 @@ import Stepper from '../components/Stepper'
 import { fetchOrcidData } from '../utils/orcidApi'
 
 const STEPS = [
-  { id: 1, name: 'ORCID ID', description: 'Enter your ORCID' },
+  { id: 1, name: 'ORCID', description: 'Enter your ORCID' },
   { id: 2, name: 'Sections', description: 'Choose sections' },
   { id: 3, name: 'Customize', description: 'Edit items' },
   { id: 4, name: 'Template', description: 'Pick a style' },

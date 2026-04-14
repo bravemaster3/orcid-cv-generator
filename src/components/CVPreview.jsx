@@ -193,7 +193,25 @@ function CVPreview({
           )}
         </div>
 
-        <div className="border-2 border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
+        {/* Mobile: PDF iframes are unsupported on iOS and unreliable on Android */}
+        <div className="md:hidden flex flex-col items-center justify-center py-12 gap-4 border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900">
+          {loadingPreview ? (
+            <>
+              <Loader2 className="w-10 h-10 animate-spin text-primary-600" />
+              <p className="text-gray-500 dark:text-gray-400 text-sm">Preparing your CV…</p>
+            </>
+          ) : (
+            <>
+              <p className="text-gray-600 dark:text-gray-300 font-medium">Your CV is ready</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center px-4">
+                PDF preview is not supported on mobile. Use the download buttons to get your CV.
+              </p>
+            </>
+          )}
+        </div>
+
+        {/* Desktop: full iframe preview */}
+        <div className="hidden md:block border-2 border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
           {loadingPreview ? (
             <div className="flex flex-col items-center justify-center h-96 gap-4">
               <Loader2 className="w-12 h-12 animate-spin text-primary-600" />
