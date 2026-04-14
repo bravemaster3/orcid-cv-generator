@@ -1,68 +1,593 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 594" width="420" height="594">
-  <rect width="420" height="594" fill="#ffffff"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
 
-  <!-- Photo top-right corner -->
-  <rect x="340" y="30" width="60" height="60" fill="#e5e7eb"/>
-
-  <!-- Very large name -->
-  <rect x="30" y="30" width="290" height="22" rx="2" fill="#000000"/>
-  <!-- Email -->
-  <rect x="30" y="60" width="160" height="9" rx="2" fill="#000000"/>
-  <!-- Bio -->
-  <rect x="30" y="76" width="290" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="88" width="260" height="7" rx="1" fill="#000000"/>
-  <!-- Keywords -->
-  <rect x="30" y="104" width="55" height="7" rx="1" fill="#000000"/>
-  <rect x="94" y="104" width="65" height="7" rx="1" fill="#000000"/>
-  <rect x="168" y="104" width="50" height="7" rx="1" fill="#000000"/>
-
-  <!-- Thin divider -->
-  <rect x="30" y="120" width="360" height="0.5" fill="#000000"/>
-
-  <!-- Two column grid -->
-  <!-- Left column -->
-  <!-- Experience -->
-  <rect x="30" y="136" width="75" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="152" width="140" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="164" width="120" height="7" rx="1" fill="#333333"/>
-  <rect x="30" y="175" width="80" height="6" rx="1" fill="#666666"/>
-  <rect x="30" y="190" width="130" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="202" width="110" height="7" rx="1" fill="#333333"/>
-  <rect x="30" y="213" width="80" height="6" rx="1" fill="#666666"/>
-  <rect x="30" y="228" width="125" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="240" width="105" height="7" rx="1" fill="#333333"/>
-  <rect x="30" y="251" width="80" height="6" rx="1" fill="#666666"/>
-
-  <!-- Education -->
-  <rect x="30" y="272" width="70" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="288" width="135" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="300" width="115" height="7" rx="1" fill="#333333"/>
-  <rect x="30" y="311" width="80" height="6" rx="1" fill="#666666"/>
-  <rect x="30" y="326" width="125" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="338" width="105" height="7" rx="1" fill="#333333"/>
-  <rect x="30" y="349" width="80" height="6" rx="1" fill="#666666"/>
-
-  <!-- Right column -->
-  <!-- Funding -->
-  <rect x="220" y="136" width="60" height="8" rx="1" fill="#000000"/>
-  <rect x="220" y="152" width="150" height="8" rx="1" fill="#000000"/>
-  <rect x="220" y="164" width="130" height="7" rx="1" fill="#333333"/>
-  <rect x="220" y="175" width="80" height="6" rx="1" fill="#666666"/>
-  <rect x="220" y="190" width="140" height="8" rx="1" fill="#000000"/>
-  <rect x="220" y="202" width="120" height="7" rx="1" fill="#333333"/>
-  <rect x="220" y="213" width="80" height="6" rx="1" fill="#666666"/>
-
-  <!-- Publications full width -->
-  <rect x="30" y="378" width="130" height="8" rx="1" fill="#000000"/>
-  <rect x="30" y="394" width="350" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="408" width="320" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="428" width="340" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="442" width="300" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="462" width="355" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="476" width="330" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="496" width="345" height="7" rx="1" fill="#000000"/>
-  <rect x="30" y="510" width="310" height="7" rx="1" fill="#000000"/>
-
-  <!-- Page number -->
-  <rect x="195" y="574" width="30" height="7" rx="2" fill="#d1d5db"/>
+<svg
+   version="1.1"
+   id="svg1"
+   width="793.70667"
+   height="1122.52"
+   viewBox="0 0 793.70667 1122.52"
+   sodipodi:docname="page1_2531734683497972263.pdf"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2">
+      <path
+         d="m 0,0 h 595.28003 c 0,0 0,0 0,0 v 841.89001 c 0,0 0,0 0,0 H 0 c 0,0 0,0 0,0 V 0 Z"
+         id="path2" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4">
+      <path
+         d="m 0,0 h 595.28003 c 0,0 0,0 0,0 v 6 c 0,0 0,0 0,0 H 0 C 0,6 0,6 0,6 V 0 Z"
+         id="path4" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath12">
+      <path
+         d="m 50,172.52734 h 495.28003 c 0,0 0,0 0,0 v 1.5 c 0,0 0,0 0,0 H 50 c 0,0 0,0 0,0 v -1.5 z"
+         id="path12" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath14">
+      <path
+         d="M 82.119141,4.115234 H 495.28003 c 0,0 0,0 0,0 v 0.5 c 0,0 0,0 0,0 H 82.119141 c 0,0 0,0 0,0 v -0.5 z"
+         id="path14" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath42">
+      <path
+         d="M 76.724365,4.115234 H 495.28003 c 0,0 0,0 0,0 v 0.5 c 0,0 0,0 0,0 H 76.724365 c 0,0 0,0 0,0 v -0.5 z"
+         id="path42" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:page
+       x="0"
+       y="0"
+       inkscape:label="1"
+       id="page1"
+       width="793.70667"
+       height="1122.52"
+       margin="0"
+       bleed="0" />
+  </sodipodi:namedview>
+  <g
+     id="g1"
+     inkscape:groupmode="layer"
+     inkscape:label="1">
+    <path
+       id="path1"
+       d="M 0,0 H 595.28003 V 841.89001 H 0 Z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(1.3333333,0,0,1.3333333,0,-2e-5)"
+       clip-path="url(#clipPath2)" />
+    <path
+       id="path3"
+       d="M 0,0 H 595.28003 V 6 H 0 Z"
+       style="fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(1.3333333,0,0,1.3333333,0,-2e-5)"
+       clip-path="url(#clipPath4)" />
+    <text
+       id="text4"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,95.795553)"><tspan
+         id="tspan4"
+         style="font-variant:normal;font-weight:normal;font-size:30px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 -1.9941406 -0.5 0 0 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5 -0.5"
+         y="0">Koffi Dodji Noumonvi</tspan></text>
+    <text
+       id="text5"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,126.31997)"><tspan
+         id="tspan5"
+         style="font-variant:normal;font-weight:normal;font-size:9.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 -0.20874023 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.20874023 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.20874023 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.29223633"
+         y="0">GIS and remote sensing scientist focusing on forest and peatland ecosystems, greenhouse gas fluxes, </tspan></text>
+    <text
+       id="text6"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,148.48663)"><tspan
+         id="tspan6"
+         style="font-variant:normal;font-weight:normal;font-size:9.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 -0.20874023 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.16699219"
+         y="0">and environmental modelling. Experienced in spatial analysis, eddy covariance data, machine learning, </tspan></text>
+    <text
+       id="text7"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,170.6533)"><tspan
+         id="tspan7"
+         style="font-variant:normal;font-weight:normal;font-size:9.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 -0.20874023"
+         y="0">and process-based models.</tspan></text>
+    <text
+       id="text8"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,206.34471)"><tspan
+         id="tspan8"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 1.2 1.2"
+         y="0">GIS</tspan></text>
+    <text
+       id="text9"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,104.51257,206.34471)"><tspan
+         id="tspan9"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2"
+         y="0">REMOTE SENSING</tspan></text>
+    <text
+       id="text10"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,232.95651,206.34471)"><tspan
+         id="tspan10"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 1.0681641 0.6177246 0.6177246 1.2 1.2 1.2 1.2 1.2 0.20390625 1.2 1.2 1.2"
+         y="0">DATA ANALYSIS</tspan></text>
+    <text
+       id="text11"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,345.85514,206.34471)"><tspan
+         id="tspan11"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 1.2 1.2 1.0681641 1.2 0.78984374 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2 1.2"
+         y="0">SOFTWARE ENGINEERING</tspan></text>
+    <path
+       id="path11"
+       d="m 50,172.52734 h 495.28003 v 1.5 H 50 Z"
+       style="fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(1.3333333,0,0,1.3333333,0,-2e-5)"
+       clip-path="url(#clipPath12)" />
+    <text
+       id="text12"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,278.652)"><tspan
+         id="tspan12"
+         style="font-variant:normal;font-weight:700;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 2 2 2 2 2 2 2 2 2"
+         y="0">EXPERIENCE</tspan></text>
+    <path
+       id="path13"
+       d="M 82.119141,4.115234 H 495.28003 v 0.5 H 82.119141 Z"
+       style="fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,269.36977)"
+       clip-path="url(#clipPath14)" />
+    <text
+       id="text14"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,305.3867)"><tspan
+         id="tspan14"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Postdoctoral Researcher</tspan></text>
+    <text
+       id="text15"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,630.59212,304.91144)"><tspan
+         id="tspan15"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">06/2025 – </tspan></text>
+    <text
+       id="text16"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,687.01921,304.91144)"><tspan
+         id="tspan16"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 -0.140625 -0.17578125"
+         y="0">Present</tspan></text>
+    <text
+       id="text17"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,322.33657)"><tspan
+         id="tspan17"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Swedish University of agricultural sciences</tspan></text>
+    <text
+       id="text18"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,336.40102)"><tspan
+         id="tspan18"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 -0.28515625 0 -0.17578125"
+         y="0">Forest Ecology and Management</tspan></text>
+    <text
+       id="text19"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,367.29295)"><tspan
+         id="tspan19"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">PhD candidate</tspan></text>
+    <text
+       id="text20"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,366.81769)"><tspan
+         id="tspan20"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">08/2020 – 05/2025</tspan></text>
+    <text
+       id="text21"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,384.24282)"><tspan
+         id="tspan21"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Swedish University of Agricultural Sciences</tspan></text>
+    <text
+       id="text22"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,398.30727)"><tspan
+         id="tspan22"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 -0.28515625 0 -0.17578125"
+         y="0">Forest Ecology and Management</tspan></text>
+    <text
+       id="text23"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,429.1992)"><tspan
+         id="tspan23"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 -1.328125"
+         y="0">Senior Technical Advisor</tspan></text>
+    <text
+       id="text24"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,428.72394)"><tspan
+         id="tspan24"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">05/2019 – 08/2020</tspan></text>
+    <text
+       id="text25"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,446.14907)"><tspan
+         id="tspan25"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 -0.32080078 0 -0.19775391"
+         y="0">Slovenian Forestry Institute</tspan></text>
+    <text
+       id="text26"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,460.21352)"><tspan
+         id="tspan26"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Ecology</tspan></text>
+    <text
+       id="text27"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,491.10545)"><tspan
+         id="tspan27"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Graduate engineer</tspan></text>
+    <text
+       id="text28"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,490.63019)"><tspan
+         id="tspan28"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">08/2018 – 04/2019</tspan></text>
+    <text
+       id="text29"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,508.05532)"><tspan
+         id="tspan29"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 -0.32080078 0 -0.19775391"
+         y="0">Slovenian Forestry Institute</tspan></text>
+    <text
+       id="text30"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,522.11977)"><tspan
+         id="tspan30"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Ecology</tspan></text>
+    <text
+       id="text31"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,553.0117)"><tspan
+         id="tspan31"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Intern carbon fluxes modelling</tspan></text>
+    <text
+       id="text32"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,552.53644)"><tspan
+         id="tspan32"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">02/2018 – 06/2018</tspan></text>
+    <text
+       id="text33"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,569.96157)"><tspan
+         id="tspan33"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 -0.32080078 0 -0.19775391"
+         y="0">Slovenian Forestry Institute</tspan></text>
+    <text
+       id="text34"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,584.02602)"><tspan
+         id="tspan34"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Ecology</tspan></text>
+    <text
+       id="text35"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,614.91795)"><tspan
+         id="tspan35"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">GIS specialist and environmentalist</tspan></text>
+    <text
+       id="text36"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,614.44269)"><tspan
+         id="tspan36"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">02/2016 – 08/2016</tspan></text>
+    <text
+       id="text37"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,631.86782)"><tspan
+         id="tspan37"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 -0.19775391 0 0 0 0 0 0 -0.15820312 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.19775391"
+         y="0">Laboratoire International de Gestion de l'Environnement (LGE Inter)</tspan></text>
+    <text
+       id="text38"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,664.40753)"><tspan
+         id="tspan38"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">GIS &amp; Remote sensing specialist</tspan></text>
+    <text
+       id="text39"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,663.93227)"><tspan
+         id="tspan39"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">07/2015 – 12/2015</tspan></text>
+    <text
+       id="text40"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,681.3574)"><tspan
+         id="tspan40"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.15820312"
+         y="0">Geographic Information System for Decision Support (GIS4DS)</tspan></text>
+    <text
+       id="text41"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,729.46971)"><tspan
+         id="tspan41"
+         style="font-variant:normal;font-weight:700;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#cc0000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 2 2 2 2 1.4177246 2 2 2"
+         y="0">EDUCATION</tspan></text>
+    <path
+       id="path41"
+       d="M 76.724365,4.115234 H 495.28003 v 0.5 H 76.724365 Z"
+       style="fill:#d4d4d4;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,720.18748)"
+       clip-path="url(#clipPath42)" />
+    <text
+       id="text42"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,756.20441)"><tspan
+         id="tspan42"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.40527344"
+         y="0">MSc. Mediterranean Forestry and Natural Resources Management. Elec-</tspan></text>
+    <text
+       id="text43"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,771.72524)"><tspan
+         id="tspan43"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.328125 0 0 0 0 0 0 0 0 0 -0.40527344"
+         y="0">tive: Multicriteria Decision Support Tools for Forest Management Plan-</tspan></text>
+    <text
+       id="text44"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,787.24607)"><tspan
+         id="tspan44"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">ning</tspan></text>
+    <text
+       id="text45"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,755.72915)"><tspan
+         id="tspan45"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">09/2017 – 07/2018</tspan></text>
+    <text
+       id="text46"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,804.19594)"><tspan
+         id="tspan46"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.19775391"
+         y="0">Universidade de Lisboa Instituto Superior de Agronomia</tspan></text>
+    <text
+       id="text47"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,836.73566)"><tspan
+         id="tspan47"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 -0.40527344"
+         y="0">MSc. Forest Science</tspan></text>
+    <text
+       id="text48"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,836.2604)"><tspan
+         id="tspan48"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">10/2016 – 07/2017</tspan></text>
+    <text
+       id="text49"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,853.68553)"><tspan
+         id="tspan49"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.40429688"
+         y="0">Universita degli Studi di Padova - Campus di Agripolis</tspan></text>
+    <text
+       id="text50"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,867.74998)"><tspan
+         id="tspan50"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0.1484375"
+         y="0">TESAF</tspan></text>
+    <text
+       id="text51"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,898.64191)"><tspan
+         id="tspan51"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 -0.35644531 0 0 0 -0.44619411 -0.44619411 0 0 -0.44619411 -0.44619411 -0.40527344 0 0 0 0 -0.44619411 -0.44619411 0 0 0 0 0 0 0 -0.44619411 -0.44619411 0 0 0 0 0 0 0 0 0 0 -0.44619411 -0.44619411 0 -0.44619411 -0.44619411 0 0 0 0 0 0 0 0 -0.44619411 -0.44619411 0 -0.44619411 -0.44619411 0 0 0 0 0 0 -0.44619411 -0.44619411"
+         y="0">Water and Forest engineer specialized in Geomatics of Natural Resources</tspan></text>
+    <text
+       id="text52"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,898.16665)"><tspan
+         id="tspan52"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">09/2013 – 07/2015</tspan></text>
+    <text
+       id="text53"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,915.59178)"><tspan
+         id="tspan53"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.32080078 0 -0.19775391 0 0 0 0 0 -0.19775391"
+         y="0">École Nationale Forestière d'Ingénieurs</tspan></text>
+    <text
+       id="text54"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,929.65623)"><tspan
+         id="tspan54"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.359375 0 0 0 0 -0.17578125"
+         y="0">Geomatics of Natural Resources</tspan></text>
+    <text
+       id="text55"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,960.54816)"><tspan
+         id="tspan55"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 -0.40527344"
+         y="0">General Forestry Degree</tspan></text>
+    <text
+       id="text56"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,960.0729)"><tspan
+         id="tspan56"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">01/2011 – 07/2013</tspan></text>
+    <text
+       id="text57"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,977.49803)"><tspan
+         id="tspan57"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         dx="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.32080078 0 -0.19775391 0 0 0 0 0 -0.19775391"
+         y="0">École Nationale Forestière d'Ingénieurs</tspan></text>
+    <text
+       id="text58"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,1010.0377)"><tspan
+         id="tspan58"
+         style="font-variant:normal;font-weight:700;font-size:10px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">University degree in Biology Chemistry Geology</tspan></text>
+    <text
+       id="text59"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,626.30046,1009.5625)"><tspan
+         id="tspan59"
+         style="font-variant:normal;font-weight:normal;font-size:8px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">09/2009 – 07/2011</tspan></text>
+    <text
+       id="text60"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,66.666667,1026.9876)"><tspan
+         id="tspan60"
+         style="font-variant:normal;font-weight:normal;font-size:9px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#555555;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">Université Sultan Moulay Slimane</tspan></text>
+    <text
+       id="text61"
+       xml:space="preserve"
+       transform="matrix(1.3333333,0,0,1.3333333,385.62777,1098.8283)"><tspan
+         id="tspan61"
+         style="font-variant:normal;font-weight:normal;font-size:7.5px;font-family:'DejaVu Sans';writing-mode:lr-tb;fill:#999999;fill-opacity:1;fill-rule:nonzero;stroke:none"
+         x="0"
+         y="0">1 / 3</tspan></text>
+  </g>
 </svg>
