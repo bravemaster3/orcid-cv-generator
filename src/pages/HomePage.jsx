@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import OrcidInput from '../components/OrcidInput'
 import SectionSelector from '../components/SectionSelector'
 import ItemEditor from '../components/ItemEditor'
@@ -15,16 +16,62 @@ const STEPS = [
   { id: 5, name: 'Preview', description: 'Review & download' },
 ]
 
+const SESSION_KEY = 'orcidcv_session'
+
+function loadSession() {
+  try {
+    const raw = sessionStorage.getItem(SESSION_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function saveSession(state) {
+  try {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify(state))
+  } catch {
+    // Quota exceeded (e.g. large photo) — fail silently
+  }
+}
+
 function HomePage() {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [orcidId, setOrcidId] = useState('')
-  const [orcidData, setOrcidData] = useState(null)
-  const [selectedSections, setSelectedSections] = useState({})
-  const [selectedItems, setSelectedItems] = useState({})
-  const [selectedTemplate, setSelectedTemplate] = useState('modern-minimal')
-  const [profilePhoto, setProfilePhoto] = useState(null)
+  const [searchParams] = useSearchParams()
+  const templateFromUrl = searchParams.get('template')
+
+  // Restore previous session if available
+  const saved = loadSession()
+
+  const [currentStep, setCurrentStep] = useState(() => {
+    // If user arrived via "Use this template" and already has data, jump to step 4
+    if (templateFromUrl && saved?.orcidData) return 4
+    return saved?.currentStep || 1
+  })
+  const [orcidId, setOrcidId] = useState(saved?.orcidId || '')
+  const [orcidData, setOrcidData] = useState(saved?.orcidData || null)
+  const [selectedSections, setSelectedSections] = useState(saved?.selectedSections || {})
+  const [selectedItems, setSelectedItems] = useState(saved?.selectedItems || {})
+  const [selectedTemplate, setSelectedTemplate] = useState(
+    templateFromUrl || saved?.selectedTemplate || 'modern-minimal'
+  )
+  const [profilePhoto, setProfilePhoto] = useState(saved?.profilePhoto || null)
+  const [photoEnabled, setPhotoEnabled] = useState(saved?.photoEnabled || false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Persist session whenever relevant state changes
+  useEffect(() => {
+    saveSession({
+      currentStep,
+      orcidId,
+      orcidData,
+      selectedSections,
+      selectedItems,
+      selectedTemplate,
+      profilePhoto,
+      photoEnabled,
+    })
+  }, [currentStep, orcidId, orcidData, selectedSections, selectedItems, selectedTemplate, profilePhoto, photoEnabled])
 
   const handleOrcidSubmit = async (id) => {
     setLoading(true)
@@ -82,10 +129,10 @@ function HomePage() {
     })
   }
 
-  const handleSelectAllItems = (section, itemCount) => {
+  const handleSelectAllItems = (section, indices) => {
     setSelectedItems(prev => ({
       ...prev,
-      [section]: Array.from({ length: itemCount }, (_, i) => i),
+      [section]: Array.isArray(indices) ? indices : Array.from({ length: indices }, (_, i) => i),
     }))
   }
 
@@ -112,6 +159,7 @@ function HomePage() {
   }
 
   const handleReset = () => {
+    sessionStorage.removeItem(SESSION_KEY)
     setCurrentStep(1)
     setOrcidId('')
     setOrcidData(null)
@@ -119,17 +167,18 @@ function HomePage() {
     setSelectedItems({})
     setSelectedTemplate('modern-minimal')
     setProfilePhoto(null)
+    setPhotoEnabled(false)
     setError(null)
   }
 
   return (
-    <div className="relative bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="relative bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             ORCID CV Generator
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Create beautiful CVs from your ORCID profile
           </p>
         </header>
@@ -167,7 +216,13 @@ function HomePage() {
                 selectedTemplate={selectedTemplate}
                 onSelectTemplate={setSelectedTemplate}
                 profilePhoto={profilePhoto}
-                onPhotoUpload={setProfilePhoto}
+                onPhotoUpload={(photo) => {
+                  setProfilePhoto(photo)
+                  if (photo) setPhotoEnabled(true)
+                  else setPhotoEnabled(false)
+                }}
+                photoEnabled={photoEnabled}
+                onPhotoEnableToggle={setPhotoEnabled}
                 onNext={handleNext}
                 onBack={handleBack}
               />
@@ -178,7 +233,14 @@ function HomePage() {
                 selectedSections={selectedSections}
                 selectedItems={selectedItems}
                 template={selectedTemplate}
-                profilePhoto={profilePhoto}
+                profilePhoto={photoEnabled ? profilePhoto : null}
+                onPhotoUpload={(photo) => {
+                  setProfilePhoto(photo)
+                  if (photo) setPhotoEnabled(true)
+                  else setPhotoEnabled(false)
+                }}
+                photoEnabled={photoEnabled}
+                onPhotoEnableToggle={setPhotoEnabled}
                 onBack={handleBack}
                 onReset={handleReset}
               />
@@ -189,7 +251,7 @@ function HomePage() {
 
       {/* Scroll-down hint */}
       <div className="flex justify-center pb-4 pt-2">
-        <div className="animate-bounce text-indigo-400 opacity-70">
+        <div className="animate-bounce text-indigo-400 dark:text-indigo-500 opacity-70">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>

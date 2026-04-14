@@ -1,41 +1,51 @@
-import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
-import { buildTimelineItems, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { Document, Page, Text, View, Image, StyleSheet, Link } from '@react-pdf/renderer'
+import { buildTimelineItems, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { registerPdfFonts } from '../../utils/pdfFonts'
+
+registerPdfFonts()
+
+const INDIGO  = '#6366f1'
+const EMERALD = '#10b981'
+const DARK    = '#1e293b'
+const MID     = '#475569'
+const LIGHT   = '#94a3b8'
+const RULE    = '#e2e8f0'
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
     backgroundColor: '#ffffff',
-    fontFamily: 'Helvetica',
+    fontFamily: 'DejaVu Sans',
   },
   header: {
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 28,
   },
   photoContainer: {
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 12,
   },
   photo: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
     objectFit: 'cover',
-    border: '3px solid #6366f1',
+    border: `3px solid ${INDIGO}`,
   },
   name: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 6,
+    color: DARK,
+    marginBottom: 5,
   },
   email: {
     fontSize: 10,
-    color: '#64748b',
-    marginBottom: 12,
+    color: LIGHT,
+    marginBottom: 10,
   },
   biography: {
     fontSize: 10,
-    color: '#475569',
+    color: MID,
     lineHeight: 1.5,
     textAlign: 'center',
     marginHorizontal: 40,
@@ -44,109 +54,135 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap: 6,
-    marginTop: 12,
+    gap: 5,
+    marginTop: 10,
   },
   keyword: {
     backgroundColor: '#eef2ff',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
     fontSize: 8,
-    color: '#6366f1',
+    color: INDIGO,
   },
-  timelineSection: {
-    marginTop: 25,
+  section: {
+    marginTop: 22,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    gap: 16,
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 20,
-    textAlign: 'center',
+    color: DARK,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
+  legend: {
+    flexDirection: 'row',
+    gap: 14,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  legendDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  legendLabel: {
+    fontSize: 8,
+    color: MID,
+  },
   timelineItem: {
     flexDirection: 'row',
-    marginBottom: 20,
-    position: 'relative',
+    marginBottom: 16,
   },
   timelineDate: {
-    width: 100,
-    fontSize: 9,
-    color: '#64748b',
+    width: 90,
+    fontSize: 8,
+    color: LIGHT,
     fontWeight: 'bold',
     textAlign: 'right',
-    paddingRight: 15,
+    paddingRight: 12,
+    paddingTop: 2,
   },
-  timelineLine: {
-    width: 2,
-    backgroundColor: '#e2e8f0',
-    marginHorizontal: 15,
-    position: 'relative',
+  timelineConnector: {
+    width: 20,
+    alignItems: 'center',
   },
   timelineDot: {
-    position: 'absolute',
-    left: -4,
-    top: 5,
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#6366f1',
+    marginTop: 2,
     border: '2px solid #ffffff',
+  },
+  timelineLine: {
+    width: 2,
+    flex: 1,
+    backgroundColor: RULE,
+    marginTop: 2,
   },
   timelineContent: {
     flex: 1,
-    paddingLeft: 15,
+    paddingLeft: 10,
   },
   timelineTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 3,
+    color: DARK,
+    marginBottom: 2,
   },
   timelineOrg: {
-    fontSize: 10,
-    color: '#6366f1',
-    marginBottom: 2,
-  },
-  timelineDept: {
     fontSize: 9,
-    color: '#64748b',
-  },
-  publicationsSection: {
-    marginTop: 25,
-  },
-  publicationItem: {
-    marginBottom: 8,
-    paddingLeft: 15,
-    borderLeftWidth: 2,
-    borderLeftColor: '#e2e8f0',
-  },
-  publicationTitle: {
-    fontSize: 9,
-    color: '#1e293b',
-    marginBottom: 2,
-  },
-  publicationJournal: {
-    fontSize: 8,
-    color: '#6366f1',
-    fontStyle: 'italic',
     marginBottom: 1,
   },
-  publicationMeta: {
+  timelineDept: {
     fontSize: 8,
-    color: '#94a3b8',
+    color: LIGHT,
+  },
+  publicationItem: {
+    flexDirection: 'row',
+    marginBottom: 7,
+  },
+  pubNumber: {
+    width: 28,
+    fontSize: 9,
+    color: MID,
+    textAlign: 'right',
+    paddingRight: 6,
+  },
+  pubText: {
+    flex: 1,
+    fontSize: 9,
+    color: DARK,
+    lineHeight: 1.4,
+  },
+  pubJournal: {
+    fontStyle: 'italic',
+    color: INDIGO,
+  },
+  fundingItem: {
+    marginBottom: 7,
+    paddingLeft: 10,
+    borderLeftWidth: 2,
+    borderLeftColor: RULE,
   },
   pageNumber: {
     position: 'absolute',
-    fontSize: 9,
+    fontSize: 8,
     bottom: 20,
     left: 0,
     right: 0,
     textAlign: 'center',
-    color: '#64748b',
+    color: LIGHT,
   },
 })
 
@@ -159,6 +195,7 @@ function TimelinePDF({ data }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+
         {/* Header */}
         <View style={styles.header}>
           {photo && (
@@ -167,57 +204,80 @@ function TimelinePDF({ data }) {
             </View>
           )}
           <Text style={styles.name}>{personal?.fullName}</Text>
-          {personal?.emails && personal.emails.length > 0 && (
+          {personal?.emails?.length > 0 && (
             <Text style={styles.email}>{personal.emails[0]}</Text>
           )}
           {personal?.biography && (
             <Text style={styles.biography}>{personal.biography}</Text>
           )}
-          {personal?.keywords && personal.keywords.length > 0 && (
+          {personal?.keywords?.length > 0 && (
             <View style={styles.keywordsContainer}>
-              {personal.keywords.map((keyword, idx) => (
-                <Text key={idx} style={styles.keyword}>
-                  {keyword}
-                </Text>
+              {personal.keywords.map((kw, i) => (
+                <Text key={i} style={styles.keyword}>{kw}</Text>
               ))}
             </View>
           )}
         </View>
 
-        {/* Career Timeline */}
+        {/* Career Timeline — employment (indigo) + education (emerald) interleaved */}
         {timelineItems.length > 0 && (
-          <View style={styles.timelineSection}>
-            <Text style={styles.sectionTitle}>Career Timeline</Text>
-            {timelineItems.map((item, idx) => (
-              <View key={idx} style={styles.timelineItem} wrap={false}>
-                <Text style={styles.timelineDate}>{item.dateRange}</Text>
-                <View style={styles.timelineLine}>
-                  <View style={styles.timelineDot} />
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Academic & Career Timeline</Text>
+              <View style={styles.legend}>
+                <View style={styles.legendItem}>
+                  <View style={[styles.legendDot, { backgroundColor: INDIGO }]} />
+                  <Text style={styles.legendLabel}>Employment</Text>
                 </View>
-                <View style={styles.timelineContent}>
-                  <Text style={styles.timelineTitle}>{item.title}</Text>
-                  <Text style={styles.timelineOrg}>{item.organization}</Text>
-                  {item.department && <Text style={styles.timelineDept}>{item.department}</Text>}
+                <View style={styles.legendItem}>
+                  <View style={[styles.legendDot, { backgroundColor: EMERALD }]} />
+                  <Text style={styles.legendLabel}>Education</Text>
                 </View>
               </View>
-            ))}
+            </View>
+
+            {timelineItems.map((item, idx) => {
+              const dotColor = item.itemType === 'employment' ? INDIGO : EMERALD
+              const orgColor = item.itemType === 'employment' ? INDIGO : EMERALD
+              return (
+                <View key={idx} style={styles.timelineItem} wrap={false}>
+                  <Text style={styles.timelineDate}>{item.dateRange}</Text>
+                  <View style={styles.timelineConnector}>
+                    <View style={[styles.timelineDot, { backgroundColor: dotColor }]} />
+                    {idx < timelineItems.length - 1 && <View style={styles.timelineLine} />}
+                  </View>
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineTitle}>{item.title}</Text>
+                    <Text style={[styles.timelineOrg, { color: orgColor }]}>{item.organization}</Text>
+                    {item.department && <Text style={styles.timelineDept}>{item.department}</Text>}
+                  </View>
+                </View>
+              )
+            })}
           </View>
         )}
 
-        {/* Publications */}
+        {/* Publications — numbered */}
         {pubs.length > 0 && (
-          <View style={styles.publicationsSection}>
-            <Text style={styles.sectionTitle}>Selected Publications</Text>
-            {pubs.slice(0, 10).map((pub, idx) => (
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Publications</Text>
+            </View>
+            {pubs.map((pub, idx) => (
               <View key={idx} style={styles.publicationItem} wrap={false}>
-                <Text style={styles.publicationTitle}>
-                  {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
-                  {pub.year ? `(${pub.year}): ` : ''}{pub.title}
-                  {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
-                  {pub.volume ? `, ${pub.volume}` : ''}
-                  {pub.issue ? `(${pub.issue})` : ''}
-                  {pub.pages ? `, ${pub.pages}` : ''}
-                  {pub.doi ? `. DOI: ${pub.doi}` : ''}
+                <Text style={styles.pubNumber}>{pub.number}.</Text>
+                <Text style={styles.pubText}>
+                  {pub.authors.length > 0 && formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                    <Text key={i} style={seg.bold ? { fontWeight: 'bold' } : {}}>{seg.text}</Text>
+                  )}
+                  {pub.authors.length > 0 && <Text>{' '}</Text>}
+                  {pub.year && <Text>{`(${pub.year}): `}</Text>}
+                  <Text style={{ fontWeight: 'bold' }}>{pub.title}</Text>
+                  {pub.journal && <Text style={styles.pubJournal}>{`. ${pub.journal}`}</Text>}
+                  {pub.volume && <Text>{`, ${pub.volume}`}</Text>}
+                  {pub.issue && <Text>{`(${pub.issue})`}</Text>}
+                  {pub.pages && <Text>{`, ${pub.pages}`}</Text>}
+                  {pub.doi && <Link src={`https://doi.org/${pub.doi}`} style={{ color: '#94a3b8' }}>{` https://doi.org/${pub.doi}`}</Link>}
                 </Text>
               </View>
             ))}
@@ -226,23 +286,24 @@ function TimelinePDF({ data }) {
 
         {/* Funding */}
         {grants.length > 0 && (
-          <View style={styles.publicationsSection}>
-            <Text style={styles.sectionTitle}>Grants & Funding</Text>
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionTitle}>Grants & Funding</Text>
+            </View>
             {grants.map((grant, idx) => (
-              <View key={idx} style={styles.publicationItem} wrap={false}>
-                <Text style={styles.publicationTitle}>{grant.title}</Text>
-                <Text style={styles.timelineOrg}>{grant.organization}</Text>
-                <Text style={styles.publicationMeta}>{grant.dateRange}</Text>
+              <View key={idx} style={styles.fundingItem} wrap={false}>
+                <Text style={{ fontSize: 10, fontWeight: 'bold', color: DARK }}>{grant.title}</Text>
+                <Text style={{ fontSize: 9, color: INDIGO }}>{grant.organization}</Text>
+                <Text style={{ fontSize: 8, color: LIGHT }}>{grant.dateRange}</Text>
               </View>
             ))}
           </View>
         )}
-        <Text 
-            style={styles.pageNumber} 
-            render={({ pageNumber, totalPages }) => (
-            `${pageNumber} / ${totalPages}`
-            )} 
-            fixed 
+
+        <Text
+          style={styles.pageNumber}
+          render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+          fixed
         />
       </Page>
     </Document>

@@ -1,11 +1,14 @@
 import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { registerPdfFonts } from '../../utils/pdfFonts'
+
+registerPdfFonts()
 
 const styles = StyleSheet.create({
   page: {
     padding: 30,
     backgroundColor: '#ffffff',
-    fontFamily: 'Helvetica',
+    fontFamily: 'Arimo',
     fontSize: 9,
   },
   header: {
@@ -202,7 +205,10 @@ function CompactDensePDF({ data }) {
                 {pubs.map((pub, idx) => (
                   <View key={idx} style={styles.publicationItem} wrap={false}>
                     <Text style={styles.publicationTitle}>
-                      {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
+                      {pub.authors.length > 0 && formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                      seg.bold ? <Text key={i} style={{ fontWeight: 'bold' }}>{seg.text}</Text> : seg.text
+                    )}
+                    {pub.authors.length > 0 && ' '}
                       {pub.year ? `(${pub.year}): ` : ''}{pub.title}
                       {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
                       {pub.volume ? `, ${pub.volume}` : ''}

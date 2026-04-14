@@ -1,21 +1,32 @@
-import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { Document, Page, Text, View, Image, StyleSheet, Link } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { registerPdfFonts } from '../../utils/pdfFonts'
+
+registerPdfFonts()
 
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: '#ffffff', // CHANGE to white
-    fontFamily: 'Helvetica',
-    paddingVertical: 40,
+    backgroundColor: '#ffffff',
+    fontFamily: 'DejaVu Sans',
+    paddingTop: 40,
+    paddingBottom: 30,
+  },
+  // Painted on every page via `fixed`, fills full page height (including padding areas)
+  sidebarBg: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    width: '35%',
+    backgroundColor: '#1e293b',
   },
   pageContent: {
     flexDirection: 'row',
-    minHeight: '100%', // ADD THIS - make content fill the page
+    minHeight: '100%',
   },
   sidebar: {
     width: '35%',
-    backgroundColor: '#1e293b', // ADD BACK the background here
     paddingHorizontal: 30,
-    paddingVertical: 40,
     color: '#ffffff',
   },
   sidebarPhoto: {
@@ -108,15 +119,24 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
   },
   publicationItem: {
+    flexDirection: 'row',
     marginBottom: 10,
     paddingLeft: 10,
     borderLeftWidth: 3,
     borderLeftColor: '#e2e8f0',
   },
+  publicationNumber: {
+    width: 28,
+    fontSize: 10,
+    color: '#94a3b8',
+    textAlign: 'right',
+    paddingRight: 6,
+  },
   publicationTitle: {
+    flex: 1,
     fontSize: 10,
     color: '#1e293b',
-    marginBottom: 2,
+    lineHeight: 1.4,
   },
   publicationJournal: {
     fontSize: 9,
@@ -149,6 +169,8 @@ function ExecutivePDF({ data }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        {/* Full-bleed sidebar background — fixed renders it on every page */}
+        <View fixed style={styles.sidebarBg} />
       <View style={styles.pageContent}>
         {/* Sidebar */}
         <View style={styles.sidebar}>
@@ -217,14 +239,19 @@ function ExecutivePDF({ data }) {
               <Text style={styles.sectionTitle}>Publications</Text>
               {pubs.map((pub, idx) => (
                 <View key={idx} style={styles.publicationItem} wrap={false}>
+                  <Text style={styles.publicationNumber}>{pub.number}.</Text>
                   <Text style={styles.publicationTitle}>
-                    {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
-                    {pub.year ? `(${pub.year}): ` : ''}{pub.title}
-                    {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
-                    {pub.volume ? `, ${pub.volume}` : ''}
-                    {pub.issue ? `(${pub.issue})` : ''}
-                    {pub.pages ? `, ${pub.pages}` : ''}
-                    {pub.doi ? `. DOI: ${pub.doi}` : ''}
+                    {pub.authors.length > 0 && formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                      <Text key={i} style={seg.bold ? { fontWeight: 'bold' } : {}}>{seg.text}</Text>
+                    )}
+                    {pub.authors.length > 0 && <Text>{' '}</Text>}
+                    {pub.year && <Text>{`(${pub.year}): `}</Text>}
+                    <Text style={{ fontWeight: 'bold' }}>{pub.title}</Text>
+                    {pub.journal && <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text>}
+                    {pub.volume && <Text>{`, ${pub.volume}`}</Text>}
+                    {pub.issue && <Text>{`(${pub.issue})`}</Text>}
+                    {pub.pages && <Text>{`, ${pub.pages}`}</Text>}
+                    {pub.doi && <Link src={`https://doi.org/${pub.doi}`} style={{ color: '#94a3b8' }}>{` https://doi.org/${pub.doi}`}</Link>}
                   </Text>
                 </View>
               ))}

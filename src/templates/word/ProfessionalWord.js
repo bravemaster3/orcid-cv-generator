@@ -1,19 +1,20 @@
 import {
   Document, Paragraph, TextRun, AlignmentType, BorderStyle,
-  Table, TableRow, TableCell, WidthType,
+  Table, TableRow, TableCell, WidthType, ExternalHyperlink,
 } from 'docx'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
 import { ALL_NO_BORDERS, RIGHT_TAB, photoRun, pageNumberFooter } from './helpers'
 
-const DARK   = '0f172a'
-const MID    = '475569'
-const LIGHT  = '64748b'
-const BLUE   = '3b82f6'
+const FONT  = 'Calibri'
+const DARK  = '0f172a'
+const MID   = '475569'
+const LIGHT = '64748b'
+const BLUE  = '3b82f6'
 
 function sectionTitle(text) {
   return new Paragraph({
-    children: [new TextRun({ text: text.toUpperCase(), bold: true, color: '1e293b', size: 24 })],
-    spacing: { before: 280, after: 120 },
+    children: [new TextRun({ text: text.toUpperCase(), bold: true, color: '1e293b', size: 28, font: FONT, characterSpacing: 20 })],
+    spacing: { before: 320, after: 120 },
     border: { bottom: { style: BorderStyle.THICK, size: 12, color: BLUE } },
   })
 }
@@ -21,12 +22,12 @@ function sectionTitle(text) {
 function itemRow(title, dateRange) {
   return new Paragraph({
     children: [
-      new TextRun({ text: title, bold: true, color: DARK, size: 22 }),
+      new TextRun({ text: title, bold: true, color: DARK, size: 24, font: FONT }),
       new TextRun({ text: '\t' }),
-      new TextRun({ text: dateRange, color: LIGHT, size: 18, italics: true }),
+      new TextRun({ text: dateRange, color: LIGHT, size: 20, italics: true, font: FONT }),
     ],
     tabStops: [RIGHT_TAB],
-    spacing: { before: 120, after: 40 },
+    spacing: { before: 140, after: 40 },
   })
 }
 
@@ -41,7 +42,7 @@ export function buildProfessionalWord(data, photoData) {
 
   // Large name
   children.push(new Paragraph({
-    children: [new TextRun({ text: personal?.fullName || '', bold: true, color: DARK, size: 56 })],
+    children: [new TextRun({ text: personal?.fullName || '', bold: true, color: DARK, size: 64, font: FONT })],
     spacing: { after: 100 },
   }))
 
@@ -49,19 +50,19 @@ export function buildProfessionalWord(data, photoData) {
   const infoChildren = []
   if (personal?.emails?.length > 0) {
     infoChildren.push(new Paragraph({
-      children: [new TextRun({ text: personal.emails[0], color: MID, size: 20 })],
+      children: [new TextRun({ text: personal.emails[0], color: MID, size: 20, font: FONT })],
       spacing: { after: 60 },
     }))
   }
   if (personal?.biography) {
     infoChildren.push(new Paragraph({
-      children: [new TextRun({ text: personal.biography, color: MID, size: 20 })],
+      children: [new TextRun({ text: personal.biography, color: MID, size: 20, font: FONT })],
       spacing: { after: 60 },
     }))
   }
   if (personal?.keywords?.length > 0) {
     infoChildren.push(new Paragraph({
-      children: [new TextRun({ text: personal.keywords.join('  ·  '), color: MID, size: 18 })],
+      children: [new TextRun({ text: personal.keywords.join('  ·  '), color: MID, size: 18, font: FONT })],
       spacing: { after: 60 },
     }))
   }
@@ -100,8 +101,8 @@ export function buildProfessionalWord(data, photoData) {
     children.push(sectionTitle('Experience'))
     jobs.forEach(job => {
       children.push(itemRow(job.title, job.dateRange))
-      children.push(new Paragraph({ children: [new TextRun({ text: job.organization, color: MID, size: 20 })], spacing: { after: 40 } }))
-      if (job.department) children.push(new Paragraph({ children: [new TextRun({ text: job.department, color: LIGHT, size: 18 })], spacing: { after: 80 } }))
+      children.push(new Paragraph({ children: [new TextRun({ text: job.organization, color: MID, size: 20, font: FONT })], spacing: { after: 40 } }))
+      if (job.department) children.push(new Paragraph({ children: [new TextRun({ text: job.department, color: LIGHT, size: 18, font: FONT })], spacing: { after: 80 } }))
     })
   }
 
@@ -110,28 +111,32 @@ export function buildProfessionalWord(data, photoData) {
     children.push(sectionTitle('Education'))
     edus.forEach(edu => {
       children.push(itemRow(edu.title, edu.dateRange))
-      children.push(new Paragraph({ children: [new TextRun({ text: edu.organization, color: MID, size: 20 })], spacing: { after: 40 } }))
-      if (edu.department) children.push(new Paragraph({ children: [new TextRun({ text: edu.department, color: LIGHT, size: 18 })], spacing: { after: 80 } }))
+      children.push(new Paragraph({ children: [new TextRun({ text: edu.organization, color: MID, size: 20, font: FONT })], spacing: { after: 40 } }))
+      if (edu.department) children.push(new Paragraph({ children: [new TextRun({ text: edu.department, color: LIGHT, size: 18, font: FONT })], spacing: { after: 80 } }))
     })
   }
 
-  // Publications with left blue border
+  // Publications
   if (pubs.length > 0) {
     children.push(sectionTitle('Publications'))
     pubs.forEach(pub => {
       children.push(new Paragraph({
         children: [
-          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: '1e293b', size: 20 })] : []),
-          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: '1e293b', size: 20 })] : []),
-          new TextRun({ text: pub.title, bold: true, color: '1e293b', size: 20 }),
-          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: BLUE, size: 20 })] : []),
-          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: '1e293b', size: 20 })] : []),
-          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: '1e293b', size: 20 })] : []),
-          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: '1e293b', size: 20 })] : []),
-          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: LIGHT, size: 20 })] : []),
+          new TextRun({ text: `${pub.number}.  `, color: '94a3b8', size: 20, font: FONT }),
+          ...(pub.authors.length > 0 ? [
+            ...formatAuthors(pub.authors, personal?.fullName).map(seg => new TextRun({ text: seg.text, bold: seg.bold, color: '1e293b', size: 20, font: FONT })),
+            new TextRun({ text: ' ', size: 20, font: FONT }),
+          ] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: '1e293b', size: 20, font: FONT })] : []),
+          new TextRun({ text: pub.title, bold: true, color: '1e293b', size: 20, font: FONT }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: BLUE, size: 20, font: FONT })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: '1e293b', size: 20, font: FONT })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: '1e293b', size: 20, font: FONT })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: '1e293b', size: 20, font: FONT })] : []),
+          ...(pub.doi ? [new ExternalHyperlink({ link: `https://doi.org/${pub.doi}`, children: [new TextRun({ text: ` https://doi.org/${pub.doi}`, size: 20, font: FONT, color: '0563C1', underline: {} })] })] : []),
         ],
         border: { left: { style: BorderStyle.THICK, size: 12, color: 'e2e8f0' } },
-        indent: { left: 160 },
+        indent: { left: 400, hanging: 300 },
         spacing: { before: 100, after: 80 },
       }))
     })
@@ -142,7 +147,7 @@ export function buildProfessionalWord(data, photoData) {
     children.push(sectionTitle('Grants & Funding'))
     grants.forEach(grant => {
       children.push(itemRow(grant.title, grant.dateRange))
-      children.push(new Paragraph({ children: [new TextRun({ text: grant.organization, color: MID, size: 20 })], spacing: { after: 80 } }))
+      children.push(new Paragraph({ children: [new TextRun({ text: grant.organization, color: MID, size: 20, font: FONT })], spacing: { after: 80 } }))
     })
   }
 

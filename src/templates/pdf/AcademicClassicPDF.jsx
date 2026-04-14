@@ -1,11 +1,14 @@
-import { Document, Page, Text, View, Image, StyleSheet } from '@react-pdf/renderer'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { Document, Page, Text, View, Image, StyleSheet, Link } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { registerPdfFonts } from '../../utils/pdfFonts'
+
+registerPdfFonts()
 
 const styles = StyleSheet.create({
   page: {
     padding: 50,
     backgroundColor: '#ffffff',
-    fontFamily: 'Times-Roman',
+    fontFamily: 'DejaVu Serif',
   },
   header: {
     textAlign: 'center',
@@ -17,7 +20,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 24,
-    fontFamily: 'Times-Bold',
+    fontWeight: 'bold',
     color: '#000000',
     marginBottom: 8,
     textTransform: 'uppercase',
@@ -27,16 +30,22 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#333333',
   },
-  photoContainer: {
-    alignItems: 'center',
-    marginBottom: 15,
+  photoRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 20,
+    marginBottom: 20,
   },
   photo: {
-    width: 120,
-    height: 120,
+    width: 110,
+    height: 110,
     borderRadius: 4,
     objectFit: 'cover',
     border: '2px solid #000000',
+    flexShrink: 0,
+  },
+  photoSideContent: {
+    flex: 1,
   },
   biography: {
     fontSize: 11,
@@ -50,7 +59,7 @@ const styles = StyleSheet.create({
   },
   researchTitle: {
     fontSize: 12,
-    fontFamily: 'Times-Bold',
+    fontWeight: 'bold',
     color: '#000000',
     marginBottom: 8,
     textTransform: 'uppercase',
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 12,
-    fontFamily: 'Times-Bold',
+    fontWeight: 'bold',
     color: '#000000',
     marginBottom: 10,
     textTransform: 'uppercase',
@@ -87,13 +96,13 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 11,
-    fontFamily: 'Times-Bold',
+    fontWeight: 'bold',
     color: '#000000',
-    marginBottom: 3, // ADD THIS - space before org
+    marginBottom: 3,
   },
   itemOrg: {
     fontSize: 11,
-    fontFamily: 'Times-Italic',
+    fontStyle: 'italic',
     color: '#000000',
     marginTop: 2,
   },
@@ -118,7 +127,9 @@ const styles = StyleSheet.create({
   publicationNumber: {
     fontSize: 10,
     color: '#000000',
-    width: 20,
+    width: 30,
+    textAlign: 'right',
+    paddingRight: 4,
   },
   publicationText: {
     flex: 1,
@@ -127,10 +138,10 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
   },
   publicationTitle: {
-    fontFamily: 'Times-Bold',
+    fontWeight: 'bold',
   },
   publicationJournal: {
-    fontFamily: 'Times-Italic',
+    fontStyle: 'italic',
   },
   pageNumber: {
     position: 'absolute',
@@ -153,7 +164,7 @@ function AcademicClassicPDF({ data }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Header */}
+        {/* Header — centered name + email with double border */}
         <View style={styles.header}>
           <Text style={styles.name}>{personal?.fullName}</Text>
           {personal?.emails && personal.emails.length > 0 && (
@@ -161,21 +172,34 @@ function AcademicClassicPDF({ data }) {
           )}
         </View>
 
-        {photo && (
-          <View style={styles.photoContainer}>
+        {/* Photo left + bio/keywords right when photo present; otherwise stacked */}
+        {photo ? (
+          <View style={styles.photoRow}>
             <Image src={photo} style={styles.photo} />
+            <View style={styles.photoSideContent}>
+              {personal?.biography && (
+                <Text style={styles.biography}>{personal.biography}</Text>
+              )}
+              {personal?.keywords && personal.keywords.length > 0 && (
+                <View style={styles.researchInterests} wrap={false}>
+                  <Text style={styles.researchTitle}>Research Interests</Text>
+                  <Text style={styles.keywords}>{personal.keywords.join(' • ')}</Text>
+                </View>
+              )}
+            </View>
           </View>
-        )}
-
-        {personal?.biography && (
-          <Text style={styles.biography}>{personal.biography}</Text>
-        )}
-
-        {personal?.keywords && personal.keywords.length > 0 && (
-          <View style={styles.researchInterests} wrap={false}>
-            <Text style={styles.researchTitle}>Research Interests</Text>
-            <Text style={styles.keywords}>{personal.keywords.join(' • ')}</Text>
-          </View>
+        ) : (
+          <>
+            {personal?.biography && (
+              <Text style={styles.biography}>{personal.biography}</Text>
+            )}
+            {personal?.keywords && personal.keywords.length > 0 && (
+              <View style={styles.researchInterests} wrap={false}>
+                <Text style={styles.researchTitle}>Research Interests</Text>
+                <Text style={styles.keywords}>{personal.keywords.join(' • ')}</Text>
+              </View>
+            )}
+          </>
         )}
 
         {/* Education */}
@@ -229,14 +253,17 @@ function AcademicClassicPDF({ data }) {
                 <View key={idx} style={styles.publicationItem} wrap={false}>
                   <Text style={styles.publicationNumber}>{pub.number}.</Text>
                   <Text style={styles.publicationText}>
-                    {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
-                    {pub.year ? `(${pub.year}): ` : ''}
+                    {pub.authors.length > 0 && formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                      <Text key={i} style={seg.bold ? { fontWeight: 'bold' } : {}}>{seg.text}</Text>
+                    )}
+                    {pub.authors.length > 0 && <Text>{' '}</Text>}
+                    {pub.year && <Text>{`(${pub.year}): `}</Text>}
                     <Text style={styles.publicationTitle}>{pub.title}</Text>
-                    {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
-                    {pub.volume ? `, ${pub.volume}` : ''}
-                    {pub.issue ? `(${pub.issue})` : ''}
-                    {pub.pages ? `, ${pub.pages}` : ''}
-                    {pub.doi ? `. DOI: ${pub.doi}` : ''}
+                    {pub.journal && <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text>}
+                    {pub.volume && <Text>{`, ${pub.volume}`}</Text>}
+                    {pub.issue && <Text>{`(${pub.issue})`}</Text>}
+                    {pub.pages && <Text>{`, ${pub.pages}`}</Text>}
+                    {pub.doi && <Link src={`https://doi.org/${pub.doi}`} style={{ color: '#333333' }}>{` https://doi.org/${pub.doi}`}</Link>}
                   </Text>
                 </View>
               ))}

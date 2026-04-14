@@ -1,11 +1,14 @@
-import { Document, Page, Text, View, Image, StyleSheet, Font } from '@react-pdf/renderer'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { Document, Page, Text, View, Image, StyleSheet, Link } from '@react-pdf/renderer'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { registerPdfFonts } from '../../utils/pdfFonts'
+
+registerPdfFonts()
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
     backgroundColor: '#ffffff',
-    fontFamily: 'Helvetica',
+    fontFamily: 'DejaVu Sans',
   },
   header: {
     flexDirection: 'row',
@@ -100,13 +103,21 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
   publicationItem: {
+    flexDirection: 'row',
     marginBottom: 10,
   },
-  publicationTitle: {
+  publicationNumber: {
+    width: 28,
     fontSize: 10,
-    fontWeight: 'medium',
+    color: '#6b7280',
+    textAlign: 'right',
+    paddingRight: 6,
+  },
+  publicationTitle: {
+    flex: 1,
+    fontSize: 10,
     color: '#1f2937',
-    marginBottom: 2,
+    lineHeight: 1.4,
   },
   publicationJournal: {
     fontSize: 9,
@@ -204,14 +215,19 @@ function ModernMinimalPDF({ data }) {
             <Text style={styles.sectionTitle}>Publications</Text>
             {pubs.map((pub, idx) => (
               <View key={idx} style={styles.publicationItem} wrap={false}>
+                <Text style={styles.publicationNumber}>{pub.number}.</Text>
                 <Text style={styles.publicationTitle}>
-                  {pub.authors.length > 0 ? `${pub.authors.join(', ')} ` : ''}
-                  {pub.year ? `(${pub.year}): ` : ''}{pub.title}
-                  {pub.journal ? <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text> : ''}
-                  {pub.volume ? `, ${pub.volume}` : ''}
-                  {pub.issue ? `(${pub.issue})` : ''}
-                  {pub.pages ? `, ${pub.pages}` : ''}
-                  {pub.doi ? `. DOI: ${pub.doi}` : ''}
+                  {pub.authors.length > 0 && formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                    <Text key={i} style={seg.bold ? { fontWeight: 'bold' } : {}}>{seg.text}</Text>
+                  )}
+                  {pub.authors.length > 0 && <Text>{' '}</Text>}
+                  {pub.year && <Text>{`(${pub.year}): `}</Text>}
+                  <Text style={{ fontWeight: 'bold' }}>{pub.title}</Text>
+                  {pub.journal && <Text style={styles.publicationJournal}>{`. ${pub.journal}`}</Text>}
+                  {pub.volume && <Text>{`, ${pub.volume}`}</Text>}
+                  {pub.issue && <Text>{`(${pub.issue})`}</Text>}
+                  {pub.pages && <Text>{`, ${pub.pages}`}</Text>}
+                  {pub.doi && <Link src={`https://doi.org/${pub.doi}`} style={{ color: '#6b7280' }}>{` https://doi.org/${pub.doi}`}</Link>}
                 </Text>
               </View>
             ))}

@@ -1,6 +1,6 @@
 import ItemCard from './ItemCard'
 
-function ItemsList({ section, items, selectedItems, searchQuery, onItemToggle }) {
+function ItemsList({ section, items, originalIndices, selectedItems, onItemToggle }) {
   if (items.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -11,18 +11,18 @@ function ItemsList({ section, items, selectedItems, searchQuery, onItemToggle })
 
   return (
     <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-      {items.map((item, index) => {
-        const isSelected = selectedItems.includes(index)
-        
+      {items.map((item, i) => {
+        const idx = originalIndices ? originalIndices[i] : i
+        const isSelected = selectedItems.includes(idx)
+
         return (
           <ItemCard
-            key={index}
+            key={idx}
             item={item}
             section={section}
-            index={index}
+            index={idx}
             isSelected={isSelected}
-            searchQuery={searchQuery}
-            onToggle={() => onItemToggle(section, index)}
+            onToggle={() => onItemToggle(section, idx)}
           />
         )
       })}

@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(sed -i \"s/fontFamily: 'Arimo'/fontFamily: 'DejaVu Sans'/g\" src/templates/pdf/TimelinePDF.jsx src/templates/pdf/SwissMinimalPDF.jsx src/templates/pdf/ExecutivePDF.jsx src/templates/pdf/ProfessionalPDF.jsx src/templates/pdf/ModernMinimalPDF.jsx)",
+      "Bash(sed -i \"s/fontFamily: 'Tinos'/fontFamily: 'DejaVu Serif'/g\" src/templates/pdf/AcademicClassicPDF.jsx)"
     ]
   }
 }

@@ -2,7 +2,7 @@ import {
   Document, Paragraph, TextRun, BorderStyle,
   Table, TableRow, TableCell, WidthType,
 } from 'docx'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
 import { ALL_NO_BORDERS, RIGHT_TAB, photoRun, pageNumberFooter } from './helpers'
 
 const AMBER      = 'f59e0b'
@@ -133,7 +133,10 @@ export function buildCreativeDesignerWord(data, photoData) {
     pubs.forEach(pub => {
       children.push(new Paragraph({
         children: [
-          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: AMBER_MID, size: 20 })] : []),
+          ...(pub.authors.length > 0 ? [
+          ...formatAuthors(pub.authors, personal?.fullName).map(seg => new TextRun({ text: seg.text, bold: seg.bold, color: AMBER_MID, size: 20 })),
+          new TextRun({ text: ' ', color: AMBER_MID, size: 20 }),
+        ] : []),
           ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: AMBER_MID, size: 20 })] : []),
           new TextRun({ text: pub.title, bold: true, color: AMBER_MID, size: 20 }),
           ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: AMBER, size: 20 })] : []),

@@ -46,32 +46,57 @@ export async function fetchOrcidData(orcidId) {
 }
 
 async function enrichWorksWithOpenAlex(works) {
-  const results = await Promise.all(
-    works.map(async work => {
-      if (!work.doi) return work
-      try {
-        const res = await fetch(
-          `${OPENALEX_API_BASE}/https://doi.org/${work.doi}?select=authorships,biblio&mailto=contact@example.com`
-        )
-        if (!res.ok) return work
-        const json = await res.json()
-        const authors = (json.authorships || []).map(a => a.author?.display_name).filter(Boolean)
-        const biblio = json.biblio || {}
+  // OpenAlex filter API accepts multiple DOIs in one request: filter=doi:url1|url2|...
+  // Batches of 100 keep URLs under ~5 KB (safe for all browsers/proxies).
+  // All batches fire in parallel — they cover disjoint DOIs so there is no rate-limit
+  // concern and no need to delay between them.
+  const BATCH_SIZE = 100
+
+  const results = [...works]
+  const worksWithDoi = works
+    .map((work, index) => ({ work, index }))
+    .filter(({ work }) => work.doi)
+
+  if (worksWithDoi.length === 0) return results
+
+  const batches = []
+  for (let i = 0; i < worksWithDoi.length; i += BATCH_SIZE) {
+    batches.push(worksWithDoi.slice(i, i + BATCH_SIZE))
+  }
+
+  await Promise.all(batches.map(async (batch) => {
+    try {
+      const doiFilter = batch.map(({ work }) => `https://doi.org/${work.doi}`).join('|')
+      const url = `${OPENALEX_API_BASE}?filter=doi:${doiFilter}&select=doi,authorships,biblio&per_page=200&mailto=contact@example.com`
+
+      const res = await fetch(url)
+      if (!res.ok) return
+
+      const json = await res.json()
+      for (const item of (json.results || [])) {
+        const rawDoi = (item.doi || '').replace('https://doi.org/', '').toLowerCase()
+        const match = batch.find(({ work }) => work.doi?.toLowerCase() === rawDoi)
+        if (!match) continue
+
+        const authors = (item.authorships || []).map(a => a.author?.display_name).filter(Boolean)
+        const biblio = item.biblio || {}
         const pages = biblio.first_page && biblio.last_page
           ? `${biblio.first_page}–${biblio.last_page}`
           : (biblio.first_page || null)
-        return {
-          ...work,
+
+        results[match.index] = {
+          ...match.work,
           authors,
           volume: biblio.volume || null,
           issue: biblio.issue || null,
           pages,
         }
-      } catch {
-        return work
       }
-    })
-  )
+    } catch {
+      // keep original works on error
+    }
+  }))
+
   return results
 }
 

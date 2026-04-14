@@ -6,12 +6,11 @@ function OrcidInput({ onSubmit, loading, error }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Clean ORCID ID (remove spaces, dashes, URL parts)
     const cleanId = orcidId
       .replace(/https?:\/\/(www\.)?orcid\.org\//gi, '')
       .replace(/\s+/g, '')
       .trim()
-    
+
     if (cleanId) {
       onSubmit(cleanId)
     }
@@ -20,17 +19,17 @@ function OrcidInput({ onSubmit, loading, error }) {
   return (
     <div className="card max-w-2xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Enter Your ORCID iD
         </h2>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           We'll fetch your public profile information to generate your CV
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="orcid" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="orcid" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             ORCID iD
           </label>
           <div className="relative">
@@ -45,17 +44,17 @@ function OrcidInput({ onSubmit, loading, error }) {
             />
             <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
           </div>
-          <p className="mt-2 text-xs text-gray-500">
+          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
             Enter your ORCID iD (16 digits) or paste the full URL
           </p>
         </div>
 
         {error && (
-          <div className="flex items-start gap-2 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-red-800">Error fetching ORCID data</p>
-              <p className="text-sm text-red-600 mt-1">{error}</p>
+              <p className="text-sm font-medium text-red-800 dark:text-red-300">Error fetching ORCID data</p>
+              <p className="text-sm text-red-600 dark:text-red-400 mt-1">{error}</p>
             </div>
           </div>
         )}
@@ -79,14 +78,14 @@ function OrcidInput({ onSubmit, loading, error }) {
         </button>
       </form>
 
-      <div className="mt-8 pt-6 border-t border-gray-200">
-        <p className="text-sm text-gray-600 text-center">
+      <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
           Don't have an ORCID iD?{' '}
           <a
             href="https://orcid.org/register"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary-600 hover:underline font-medium"
+            className="text-primary-600 dark:text-primary-400 hover:underline font-medium"
           >
             Register for free
           </a>

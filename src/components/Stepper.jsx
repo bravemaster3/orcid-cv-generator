@@ -12,8 +12,8 @@ function Stepper({ steps, currentStep }) {
                   currentStep > step.id
                     ? 'bg-primary-600 border-primary-600 text-white'
                     : currentStep === step.id
-                    ? 'border-primary-600 text-primary-600 bg-white'
-                    : 'border-gray-300 text-gray-400 bg-white'
+                    ? 'border-primary-600 text-primary-600 bg-white dark:bg-gray-800'
+                    : 'border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800'
                 }`}
               >
                 {currentStep > step.id ? (
@@ -25,12 +25,12 @@ function Stepper({ steps, currentStep }) {
               <div className="mt-2 text-center">
                 <div
                   className={`text-sm font-medium ${
-                    currentStep >= step.id ? 'text-gray-900' : 'text-gray-400'
+                    currentStep >= step.id ? 'text-gray-900 dark:text-gray-100' : 'text-gray-400 dark:text-gray-500'
                   }`}
                 >
                   {step.name}
                 </div>
-                <div className="text-xs text-gray-500 hidden sm:block">
+                <div className="text-xs text-gray-500 dark:text-gray-400 hidden sm:block">
                   {step.description}
                 </div>
               </div>
@@ -38,7 +38,7 @@ function Stepper({ steps, currentStep }) {
             {index < steps.length - 1 && (
               <div
                 className={`h-0.5 flex-1 mx-2 transition-all ${
-                  currentStep > step.id ? 'bg-primary-600' : 'bg-gray-300'
+                  currentStep > step.id ? 'bg-primary-600' : 'bg-gray-300 dark:bg-gray-600'
                 }`}
               />
             )}

@@ -1,15 +1,16 @@
 import {
-  Document, Paragraph, TextRun, AlignmentType, BorderStyle,
+  Document, Paragraph, TextRun, AlignmentType, BorderStyle, ExternalHyperlink,
+  Table, TableRow, TableCell, WidthType,
 } from 'docx'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
-import { RIGHT_TAB, photoParagraph, pageNumberFooter } from './helpers'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { ALL_NO_BORDERS, RIGHT_TAB, photoRun, photoParagraph, pageNumberFooter } from './helpers'
 
 const FONT = 'Times New Roman'
 
 function sectionTitle(text) {
   return new Paragraph({
-    children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 22, font: FONT })],
-    spacing: { before: 300, after: 120 },
+    children: [new TextRun({ text: text.toUpperCase(), bold: true, size: 24, font: FONT, characterSpacing: 20 })],
+    spacing: { before: 320, after: 120 },
     border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '000000' } },
   })
 }
@@ -52,29 +53,46 @@ export function buildAcademicClassicWord(data, photoData) {
     }))
   }
 
-  // Photo centered below header
-  if (photoData) {
-    const p = photoParagraph(photoData, 32, 32, AlignmentType.CENTER, { after: 160 })
-    if (p) children.push(p)
-  }
-
+  // Photo left + bio/keywords right (or stacked if no photo)
+  const bioChildren = []
   if (personal?.biography) {
-    children.push(new Paragraph({
+    bioChildren.push(new Paragraph({
       children: [new TextRun({ text: personal.biography, size: 22, font: FONT })],
       alignment: AlignmentType.BOTH,
       spacing: { after: 160 },
     }))
   }
-
   if (personal?.keywords?.length > 0) {
-    children.push(new Paragraph({
+    bioChildren.push(new Paragraph({
       children: [new TextRun({ text: 'RESEARCH INTERESTS', bold: true, size: 22, font: FONT })],
-      spacing: { before: 160, after: 80 },
+      spacing: { before: 80, after: 80 },
     }))
-    children.push(new Paragraph({
+    bioChildren.push(new Paragraph({
       children: [new TextRun({ text: personal.keywords.join(' • '), size: 22, font: FONT })],
       spacing: { after: 160 },
     }))
+  }
+
+  if (photoData) {
+    const run = photoRun(photoData, 32, 32)
+    const photoCell = new TableCell({
+      children: [new Paragraph({ children: run ? [run] : [] })],
+      width: { size: 22, type: WidthType.PERCENTAGE },
+      borders: ALL_NO_BORDERS,
+      margins: { right: 300 },
+    })
+    const bioCell = new TableCell({
+      children: bioChildren.length > 0 ? bioChildren : [new Paragraph({ children: [] })],
+      width: { size: 78, type: WidthType.PERCENTAGE },
+      borders: ALL_NO_BORDERS,
+    })
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      borders: ALL_NO_BORDERS,
+      rows: [new TableRow({ children: [photoCell, bioCell] })],
+    }))
+  } else {
+    children.push(...bioChildren)
   }
 
   // Education
@@ -124,14 +142,17 @@ export function buildAcademicClassicWord(data, photoData) {
       children.push(new Paragraph({
         children: [
           new TextRun({ text: `${pub.number}.  `, size: 20, font: FONT }),
-          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, size: 20, font: FONT })] : []),
+          ...(pub.authors.length > 0 ? [
+            ...formatAuthors(pub.authors, personal?.fullName).map(seg => new TextRun({ text: seg.text, bold: seg.bold, size: 20, font: FONT })),
+            new TextRun({ text: ' ', size: 20, font: FONT }),
+          ] : []),
           ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, size: 20, font: FONT })] : []),
           new TextRun({ text: pub.title, bold: true, size: 20, font: FONT }),
           ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, size: 20, font: FONT })] : []),
           ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, size: 20, font: FONT })] : []),
           ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, size: 20, font: FONT })] : []),
           ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, size: 20, font: FONT })] : []),
-          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, size: 20, font: FONT })] : []),
+          ...(pub.doi ? [new ExternalHyperlink({ link: `https://doi.org/${pub.doi}`, children: [new TextRun({ text: ` https://doi.org/${pub.doi}`, size: 20, font: FONT, color: '0563C1', underline: {} })] })] : []),
         ],
         indent: { left: 300, hanging: 300 },
         spacing: { before: 80, after: 80 },

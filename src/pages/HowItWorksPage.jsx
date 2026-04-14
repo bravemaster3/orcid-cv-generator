@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight, Search, ToggleLeft, Edit3, Layout, Download, Shield } from 'lucide-react'
+import { templates } from '../templates'
 
 const steps = [
   {
@@ -23,7 +24,7 @@ const steps = [
   {
     icon: Layout,
     title: 'Pick a template',
-    description: 'Choose from 8 professionally designed templates ranging from classic academic to modern minimal. Optionally upload a profile photo.',
+    description: `Choose from ${Object.keys(templates).length} professionally designed templates ranging from classic academic to modern minimal. Optionally upload a profile photo.`,
     tip: 'Not sure which to pick? Try the Academic Classic for research roles, or Executive for industry.',
   },
   {
@@ -36,22 +37,22 @@ const steps = [
 
 function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">How It Works</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             From your ORCID profile to a polished CV in under two minutes — no account, no upload, no data stored.
           </p>
         </div>
 
         <div className="max-w-3xl mx-auto">
           {/* Privacy callout */}
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-10 flex items-start gap-3">
-            <Shield className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-10 flex items-start gap-3">
+            <Shield className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-green-800">100% private</p>
-              <p className="text-sm text-green-700">
+              <p className="font-semibold text-green-800 dark:text-green-300">100% private</p>
+              <p className="text-sm text-green-700 dark:text-green-400">
                 All processing happens in your browser. Your ORCID data is fetched directly from ORCID's public API and never sent to any server.
               </p>
             </div>
@@ -62,19 +63,19 @@ function HowItWorksPage() {
             {steps.map((step, idx) => {
               const Icon = step.icon
               return (
-                <div key={idx} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex gap-5">
+                <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex gap-5">
                   <div className="flex-shrink-0">
-                    <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-primary-700" />
+                    <div className="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center">
+                      <Icon className="w-5 h-5 text-primary-700 dark:text-primary-400" />
                     </div>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold text-primary-600 uppercase tracking-wide">Step {idx + 1}</span>
+                      <span className="text-xs font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wide">Step {idx + 1}</span>
                     </div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">{step.title}</h3>
-                    <p className="text-gray-600 mb-3">{step.description}</p>
-                    <p className="text-sm text-primary-700 bg-primary-50 rounded-lg px-3 py-2">
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100 text-lg mb-2">{step.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-3">{step.description}</p>
+                    <p className="text-sm text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-900/20 rounded-lg px-3 py-2">
                       💡 {step.tip}
                     </p>
                   </div>

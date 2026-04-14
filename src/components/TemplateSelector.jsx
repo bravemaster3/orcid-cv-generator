@@ -7,6 +7,8 @@ function TemplateSelector({
   onSelectTemplate,
   profilePhoto,
   onPhotoUpload,
+  photoEnabled,
+  onPhotoEnableToggle,
   onNext,
   onBack
 }) {
@@ -15,6 +17,8 @@ function TemplateSelector({
       <PhotoUpload
         profilePhoto={profilePhoto}
         onPhotoUpload={onPhotoUpload}
+        photoEnabled={photoEnabled}
+        onPhotoEnableToggle={onPhotoEnableToggle}
       />
 
       <TemplateGrid

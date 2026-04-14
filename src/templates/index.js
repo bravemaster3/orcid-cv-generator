@@ -2,21 +2,32 @@ import ModernMinimal from './ModernMinimal'
 import AcademicClassic from './AcademicClassic'
 import TechStartup from './TechStartup'
 
+export const contributors = {
+  'bravemaster3': {
+    slug: 'bravemaster3',
+    displayName: 'bravemaster3',
+    github: 'bravemaster3',
+    url: 'https://github.com/bravemaster3',
+    projectUrl: 'https://github.com/bravemaster3/orcid-cv-generator',
+    bio: 'Building open-source tools to help researchers present their work without expensive software or data lock-in. ORCID CV Generator is free, browser-only, and MIT licensed.',
+  },
+}
+
 export const templates = {
   'modern-minimal': {
     name: 'Modern Minimal',
     description: 'Clean and contemporary design with plenty of white space',
     emoji: '✨',
     previewImage: 'template-previews/modern-minimal.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
+    creator: { slug: 'bravemaster3', name: 'bravemaster3', url: 'https://github.com/bravemaster3' },
     component: ModernMinimal,
   },
   'academic-classic': {
     name: 'Academic Classic',
-    description: 'Traditional academic CV format with formal Times New Roman styling',
+    description: 'Traditional academic CV format with formal serif styling',
     emoji: '🎓',
     previewImage: 'template-previews/academic-classic.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
+    creator: { slug: 'bravemaster3', name: 'bravemaster3', url: 'https://github.com/bravemaster3' },
     component: AcademicClassic,
   },
   'professional': {
@@ -24,7 +35,7 @@ export const templates = {
     description: 'Single-column layout with a bold blue accent line',
     emoji: '💼',
     previewImage: 'template-previews/professional.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
+    creator: { slug: 'bravemaster3', name: 'bravemaster3', url: 'https://github.com/bravemaster3' },
     component: ModernMinimal,
   },
   'executive': {
@@ -32,31 +43,15 @@ export const templates = {
     description: 'Two-column layout with a dark sidebar for a bold, senior look',
     emoji: '👔',
     previewImage: 'template-previews/executive.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
+    creator: { slug: 'bravemaster3', name: 'bravemaster3', url: 'https://github.com/bravemaster3' },
     component: TechStartup,
-  },
-  'creative-designer': {
-    name: 'Creative Designer',
-    description: 'Warm amber theme with rounded card sections and personality',
-    emoji: '🎨',
-    previewImage: 'template-previews/creative-designer.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
-    component: ModernMinimal,
-  },
-  'compact-dense': {
-    name: 'Compact Dense',
-    description: 'Two-column layout that fits maximum information on one page',
-    emoji: '📋',
-    previewImage: 'template-previews/compact-dense.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
-    component: AcademicClassic,
   },
   'timeline': {
     name: 'Timeline',
-    description: 'Chronological career timeline with indigo accents',
+    description: 'Employment & education blended in a colour-coded chronological timeline',
     emoji: '📅',
     previewImage: 'template-previews/timeline.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
+    creator: { slug: 'bravemaster3', name: 'bravemaster3', url: 'https://github.com/bravemaster3' },
     component: TechStartup,
   },
   'swiss-minimal': {
@@ -64,7 +59,7 @@ export const templates = {
     description: 'Ultra-clean, typography-driven design inspired by Swiss graphic design',
     emoji: '⬜',
     previewImage: 'template-previews/swiss-minimal.svg',
-    creator: { name: 'ORCID CV Generator', url: 'https://github.com/bravemaster3/orcid-cv-generator' },
+    creator: { slug: 'bravemaster3', name: 'bravemaster3', url: 'https://github.com/bravemaster3' },
     component: ModernMinimal,
   },
 }

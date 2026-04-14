@@ -2,7 +2,7 @@ import {
   Document, Paragraph, TextRun, BorderStyle,
   Table, TableRow, TableCell, WidthType,
 } from 'docx'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
 import { ALL_NO_BORDERS, photoRun, pageNumberFooter } from './helpers'
 
 const DARK  = '000000'
@@ -119,7 +119,10 @@ export function buildCompactDenseWord(data, photoData) {
     pubs.forEach(pub => {
       rightChildren.push(new Paragraph({
         children: [
-          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: DARK, size: 16 })] : []),
+          ...(pub.authors.length > 0 ? [
+          ...formatAuthors(pub.authors, personal?.fullName).map(seg => new TextRun({ text: seg.text, bold: seg.bold, color: DARK, size: 16 })),
+          new TextRun({ text: ' ', color: DARK, size: 16 }),
+        ] : []),
           ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: DARK, size: 16 })] : []),
           new TextRun({ text: pub.title, bold: true, color: DARK, size: 16 }),
           ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: MID, size: 16 })] : []),

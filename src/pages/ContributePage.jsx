@@ -2,7 +2,7 @@ import { Github, FileText, File, Share2, CheckCircle, Image, User } from 'lucide
 
 function Code({ children }) {
   return (
-    <code className="bg-gray-100 text-primary-700 px-1.5 py-0.5 rounded text-sm font-mono">
+    <code className="bg-gray-100 dark:bg-gray-700 text-primary-700 dark:text-primary-400 px-1.5 py-0.5 rounded text-sm font-mono">
       {children}
     </code>
   )
@@ -18,12 +18,12 @@ function CodeBlock({ children }) {
 
 function Section({ icon: Icon, title, children }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-9 h-9 bg-primary-100 rounded-lg flex items-center justify-center">
-          <Icon className="w-5 h-5 text-primary-700" />
+        <div className="w-9 h-9 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+          <Icon className="w-5 h-5 text-primary-700 dark:text-primary-400" />
         </div>
-        <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>
       </div>
       {children}
     </div>
@@ -32,12 +32,12 @@ function Section({ icon: Icon, title, children }) {
 
 function ContributePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-10">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Contribute a Template</h1>
-            <p className="text-lg text-gray-600">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">Contribute a Template</h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
               Adding a new template requires two files — one for PDF, one for Word — plus two one-line registrations.
               The shared data layer handles the rest.
             </p>
@@ -45,7 +45,7 @@ function ContributePage() {
 
           {/* Project structure */}
           <Section icon={FileText} title="Project Structure">
-            <p className="text-gray-600 mb-3">The relevant files for templates are:</p>
+            <p className="text-gray-600 dark:text-gray-300 mb-3">The relevant files for templates are:</p>
             <CodeBlock>{`src/templates/
   shared/
     cvData.js          ← shared data normalizers (edit here to add fields)
@@ -61,14 +61,14 @@ src/templates/
 
           {/* Shared data */}
           <Section icon={Share2} title="Shared Data Normalizers">
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               Import from <Code>../shared/cvData</Code> to get consistently formatted data.
               If you need a new field, add it here and both PDF and Word templates get it automatically.
             </p>
             <CodeBlock>{`import {
   normalizeEmployment,   // → [{ title, organization, department, dateRange }]
   normalizeEducation,    // → [{ title, organization, department, dateRange }]
-  normalizePublications, // → [{ number, title, journal, year, meta, fullCitation }]
+  normalizePublications, // → [{ number, title, journal, year, authors, volume, issue, pages, doi }]
   normalizeFunding,      // → [{ title, organization, dateRange }]
   buildTimelineItems,    // → sorted combined employment + education
 } from '../shared/cvData'`}</CodeBlock>
@@ -76,7 +76,7 @@ src/templates/
 
           {/* PDF template */}
           <Section icon={File} title="Creating a PDF Template">
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               PDF templates use <Code>@react-pdf/renderer</Code>. Create <Code>src/templates/pdf/MyTemplatePDF.jsx</Code>:
             </p>
             <CodeBlock>{`import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
@@ -121,7 +121,7 @@ function MyTemplatePDF({ data }) {
 }
 
 export default MyTemplatePDF`}</CodeBlock>
-            <p className="text-gray-600 mt-3">
+            <p className="text-gray-600 dark:text-gray-300 mt-3">
               Then register it in <Code>src/templates/pdf/index.js</Code>:
             </p>
             <CodeBlock>{`import MyTemplatePDF from './MyTemplatePDF'
@@ -134,7 +134,7 @@ export const pdfTemplates = {
 
           {/* Word template */}
           <Section icon={File} title="Creating a Word Template">
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               Word templates use the <Code>docx</Code> library. Create <Code>src/templates/word/MyTemplateWord.js</Code>:
             </p>
             <CodeBlock>{`import { Document, Paragraph, TextRun, BorderStyle,
@@ -187,7 +187,7 @@ export function buildMyTemplateWord(data) {
     }],
   })
 }`}</CodeBlock>
-            <p className="text-gray-600 mt-3">
+            <p className="text-gray-600 dark:text-gray-300 mt-3">
               Then register it in <Code>src/templates/word/index.js</Code>:
             </p>
             <CodeBlock>{`import { buildMyTemplateWord } from './MyTemplateWord'
@@ -200,7 +200,7 @@ export const wordTemplates = {
 
           {/* Metadata */}
           <Section icon={CheckCircle} title="Add Template Metadata">
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               Finally, add your template to <Code>src/templates/index.js</Code> so it appears in the template selector:
             </p>
             <CodeBlock>{`export const templates = {
@@ -212,25 +212,34 @@ export const wordTemplates = {
     component: ModernMinimal, // a preview component (can reuse an existing one for now)
   },
 }`}</CodeBlock>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               The key (<Code>'my-template'</Code>) must match across <Code>pdf/index.js</Code>, <Code>word/index.js</Code>, and <Code>templates/index.js</Code>.
             </p>
           </Section>
 
           {/* Preview image */}
           <Section icon={Image} title="Add a Preview Image">
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               Include a preview image so users can see what your template looks like before choosing it.
               The image should show the first page of the PDF rendered with sample data.
             </p>
-            <p className="text-gray-600 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
               <strong>How to generate it:</strong> Run the app locally with ORCID ID{' '}
-              <Code>0000-0002-3305-174X</Code>, select your template, and take a screenshot of the PDF
-              preview. Crop to the first page at A4 proportions (210 × 297 mm).
+              <Code>0000-0002-3305-174X</Code>, select your template, and download the PDF.
+              Then convert it to SVG using a tool like{' '}
+              <a
+                href="https://tools.pdf24.org/en/pdf-to-svg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-600 dark:text-primary-400 hover:underline"
+              >
+                PDF24 PDF-to-SVG
+              </a>
+              {' '}(free, no signup). For a multi-page PDF it returns a zip of SVGs — use the first one.
             </p>
-            <p className="text-gray-600 mb-3">
-              Save the image to <Code>public/template-previews/my-template.svg</Code> (SVG preferred)
-              or <Code>.png</Code> / <Code>.jpg</Code>. Then reference it in the metadata:
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
+              Save the file to <Code>public/template-previews/my-template.svg</Code> (SVG preferred for
+              crisp rendering at any size) or <Code>.png</Code> / <Code>.jpg</Code>. Then reference it in the metadata:
             </p>
             <CodeBlock>{`// src/templates/index.js
 'my-template': {
@@ -241,36 +250,61 @@ export const wordTemplates = {
   creator: { ... },
   component: ModernMinimal,
 }`}</CodeBlock>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               If no preview image is provided, the template card will show the emoji as a fallback.
             </p>
           </Section>
 
           {/* Creator */}
-          <Section icon={User} title="Add Your Name as Creator">
-            <p className="text-gray-600 mb-3">
-              Add a <Code>creator</Code> field to the template metadata so your contribution is credited
-              on the Templates page and in the project.
+          <Section icon={User} title="Add Yourself as a Contributor">
+            <p className="text-gray-600 dark:text-gray-300 mb-3">
+              Two entries are needed — one in the <Code>contributors</Code> registry (your profile) and one
+              in the template's <Code>creator</Code> field (links the template to you).
+              This gives you a dedicated page at <Code>/templates/contributor/your-github-handle</Code>
+              that lists all your templates and links to your GitHub.
             </p>
             <CodeBlock>{`// src/templates/index.js
-'my-template': {
-  name: 'My Template',
-  description: '...',
-  emoji: '🎯',
-  previewImage: 'template-previews/my-template.svg',
-  creator: {
-    name: 'Your Name',          // displayed on the template card
-    url: 'https://github.com/yourhandle', // linked from your name
+
+// 1. Add yourself to the contributors registry (once, regardless of how many templates you add)
+export const contributors = {
+  // ...existing contributors...
+  'your-github-handle': {
+    slug: 'your-github-handle',
+    displayName: 'Your Name',
+    github: 'your-github-handle',
+    url: 'https://github.com/your-github-handle',
+    projectUrl: 'https://your-portfolio.com', // optional
+    bio: 'A short bio shown on your contributor profile page.',
   },
-  component: ModernMinimal,
+}
+
+// 2. Reference your slug in each template you contribute
+export const templates = {
+  // ...existing templates...
+  'my-template': {
+    name: 'My Template',
+    description: '...',
+    emoji: '🎯',
+    previewImage: 'template-previews/my-template.svg',
+    creator: {
+      slug: 'your-github-handle', // must match the key above
+      name: 'Your Name',
+      url: 'https://github.com/your-github-handle',
+    },
+    component: ModernMinimal,
+  },
 }`}</CodeBlock>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+              If you contribute multiple templates, add one entry to <Code>contributors</Code> and
+              reference the same <Code>slug</Code> in each template's <Code>creator</Code> field.
+            </p>
           </Section>
 
           {/* Submit */}
-          <div className="bg-primary-50 border border-primary-200 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
+          <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
             <div className="flex-1">
-              <h3 className="font-bold text-gray-900 mb-1">Ready to submit?</h3>
-              <p className="text-sm text-gray-700">
+              <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">Ready to submit?</h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 Fork the repo, add your template, and open a pull request. Include a screenshot of the PDF output in the PR description.
               </p>
             </div>

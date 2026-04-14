@@ -1,3 +1,5 @@
+import { formatAuthors } from './shared/cvData'
+
 function TechStartup({ data }) {
     const { personal, photo, employment, education, publications, funding } = data
   
@@ -121,7 +123,9 @@ function TechStartup({ data }) {
             <div className="space-y-3">
               {publications.map((pub, idx) => (
                 <div key={idx} className="pb-3 border-b border-gray-100 last:border-0 text-sm text-gray-700">
-                  {pub.authors && pub.authors.length > 0 && `${pub.authors.join(', ')} `}
+                  {pub.authors && pub.authors.length > 0 && <>{formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                  seg.bold ? <strong key={i}>{seg.text}</strong> : <span key={i}>{seg.text}</span>
+                )}{' '}</>}
                   {pub.year && `(${pub.year}): `}
                   <span className="font-semibold text-gray-900">{pub.title}</span>
                   {pub.journalTitle && <span className="italic text-blue-600">. {pub.journalTitle}</span>}

@@ -1,18 +1,19 @@
 import {
   Document, Paragraph, TextRun, AlignmentType, BorderStyle,
-  Table, TableRow, TableCell, WidthType,
+  Table, TableRow, TableCell, WidthType, ExternalHyperlink,
 } from 'docx'
-import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding } from '../shared/cvData'
-import { ALL_NO_BORDERS, NO_BORDER, RIGHT_TAB, photoRun, pageNumberFooter } from './helpers'
+import { normalizeEmployment, normalizeEducation, normalizePublications, normalizeFunding, formatAuthors } from '../shared/cvData'
+import { ALL_NO_BORDERS, RIGHT_TAB, photoRun, pageNumberFooter } from './helpers'
 
-const DARK   = '1f2937'
-const MID    = '374151'
-const LIGHT  = '6b7280'
+const FONT  = 'Calibri'
+const DARK  = '1f2937'
+const MID   = '374151'
+const LIGHT = '6b7280'
 
 function sectionTitle(text) {
   return new Paragraph({
-    children: [new TextRun({ text: text.toUpperCase(), bold: true, color: DARK, size: 26 })],
-    spacing: { before: 280, after: 100 },
+    children: [new TextRun({ text: text.toUpperCase(), bold: true, color: DARK, size: 28, font: FONT, characterSpacing: 20 })],
+    spacing: { before: 320, after: 120 },
     border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: DARK } },
   })
 }
@@ -20,18 +21,18 @@ function sectionTitle(text) {
 function itemRow(title, dateRange) {
   return new Paragraph({
     children: [
-      new TextRun({ text: title, bold: true, color: DARK, size: 22 }),
+      new TextRun({ text: title, bold: true, color: DARK, size: 24, font: FONT }),
       new TextRun({ text: '\t' }),
-      new TextRun({ text: dateRange, color: LIGHT, size: 18 }),
+      new TextRun({ text: dateRange, color: LIGHT, size: 20, font: FONT }),
     ],
     tabStops: [RIGHT_TAB],
-    spacing: { before: 120, after: 40 },
+    spacing: { before: 140, after: 40 },
   })
 }
 
 function subLine(text, italic = false) {
   return new Paragraph({
-    children: [new TextRun({ text, color: MID, size: 20, italics: italic })],
+    children: [new TextRun({ text, color: MID, size: 20, italics: italic, font: FONT })],
     spacing: { after: 40 },
   })
 }
@@ -44,62 +45,62 @@ export function buildModernMinimalWord(data, photoData) {
   const grants = normalizeFunding(funding)
 
   // ── Header (photo | name/bio/email/keywords) ──────────────────────────────
-  const photoCell = photoData
-    ? new TableCell({
-        children: [new Paragraph({ children: [photoRun(photoData, 28, 28)] })],
-        width: { size: 20, type: WidthType.PERCENTAGE },
-        borders: ALL_NO_BORDERS,
-        margins: { right: 200 },
-      })
-    : null
-
   const infoChildren = [
     new Paragraph({
-      children: [new TextRun({ text: personal?.fullName || '', bold: true, color: DARK, size: 52 })],
+      children: [new TextRun({ text: personal?.fullName || '', bold: true, color: DARK, size: 56, font: FONT })],
       spacing: { after: 80 },
     }),
   ]
   if (personal?.biography) {
     infoChildren.push(new Paragraph({
-      children: [new TextRun({ text: personal.biography, color: MID, size: 20 })],
+      children: [new TextRun({ text: personal.biography, color: MID, size: 20, font: FONT })],
       spacing: { after: 60 },
     }))
   }
   if (personal?.emails?.length > 0) {
     infoChildren.push(new Paragraph({
-      children: [new TextRun({ text: personal.emails[0], color: LIGHT, size: 18 })],
+      children: [new TextRun({ text: personal.emails[0], color: LIGHT, size: 20, font: FONT })],
       spacing: { after: 60 },
     }))
   }
   if (personal?.keywords?.length > 0) {
     infoChildren.push(new Paragraph({
-      children: [new TextRun({ text: personal.keywords.join('  ·  '), color: LIGHT, size: 18 })],
+      children: [new TextRun({ text: personal.keywords.join('  ·  '), color: LIGHT, size: 18, font: FONT })],
       spacing: { after: 60 },
     }))
   }
 
-  const infoCell = new TableCell({
-    children: infoChildren,
-    width: { size: photoData ? 80 : 100, type: WidthType.PERCENTAGE },
-    borders: ALL_NO_BORDERS,
-  })
+  const children = []
 
-  const headerTable = new Table({
-    width: { size: 100, type: WidthType.PERCENTAGE },
-    borders: ALL_NO_BORDERS,
-    rows: [new TableRow({ children: photoData ? [photoCell, infoCell] : [infoCell] })],
-  })
+  if (photoData) {
+    const photoCell = new TableCell({
+      children: [new Paragraph({ children: [photoRun(photoData, 28, 28)] })],
+      width: { size: 20, type: WidthType.PERCENTAGE },
+      borders: ALL_NO_BORDERS,
+      margins: { right: 200 },
+    })
+    const infoCell = new TableCell({
+      children: infoChildren,
+      width: { size: 80, type: WidthType.PERCENTAGE },
+      borders: ALL_NO_BORDERS,
+    })
+    children.push(new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      borders: ALL_NO_BORDERS,
+      rows: [new TableRow({ children: [photoCell, infoCell] })],
+    }))
+  } else {
+    children.push(...infoChildren)
+  }
 
   // ── Divider ───────────────────────────────────────────────────────────────
-  const divider = new Paragraph({
+  children.push(new Paragraph({
     children: [],
     border: { bottom: { style: BorderStyle.THICK, size: 16, color: DARK } },
-    spacing: { after: 160 },
-  })
+    spacing: { before: 80, after: 200 },
+  }))
 
-  // ── Body sections ──────────────────────────────────────────────────────────
-  const children = [headerTable, divider]
-
+  // ── Body sections ─────────────────────────────────────────────────────────
   if (jobs.length > 0) {
     children.push(sectionTitle('Experience'))
     jobs.forEach(job => {
@@ -121,15 +122,20 @@ export function buildModernMinimalWord(data, photoData) {
     pubs.forEach(pub => {
       children.push(new Paragraph({
         children: [
-          ...(pub.authors.length > 0 ? [new TextRun({ text: `${pub.authors.join(', ')} `, color: DARK, size: 20 })] : []),
-          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: DARK, size: 20 })] : []),
-          new TextRun({ text: pub.title, bold: true, color: DARK, size: 20 }),
-          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: DARK, size: 20 })] : []),
-          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: DARK, size: 20 })] : []),
-          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: DARK, size: 20 })] : []),
-          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: DARK, size: 20 })] : []),
-          ...(pub.doi ? [new TextRun({ text: `. DOI: ${pub.doi}`, color: DARK, size: 20 })] : []),
+          new TextRun({ text: `${pub.number}.  `, color: LIGHT, size: 20, font: FONT }),
+          ...(pub.authors.length > 0 ? [
+            ...formatAuthors(pub.authors, personal?.fullName).map(seg => new TextRun({ text: seg.text, bold: seg.bold, color: DARK, size: 20, font: FONT })),
+            new TextRun({ text: ' ', size: 20, font: FONT }),
+          ] : []),
+          ...(pub.year ? [new TextRun({ text: `(${pub.year}): `, color: DARK, size: 20, font: FONT })] : []),
+          new TextRun({ text: pub.title, bold: true, color: DARK, size: 20, font: FONT }),
+          ...(pub.journal ? [new TextRun({ text: `. ${pub.journal}`, italics: true, color: DARK, size: 20, font: FONT })] : []),
+          ...(pub.volume ? [new TextRun({ text: `, ${pub.volume}`, color: DARK, size: 20, font: FONT })] : []),
+          ...(pub.issue ? [new TextRun({ text: `(${pub.issue})`, color: DARK, size: 20, font: FONT })] : []),
+          ...(pub.pages ? [new TextRun({ text: `, ${pub.pages}`, color: DARK, size: 20, font: FONT })] : []),
+          ...(pub.doi ? [new ExternalHyperlink({ link: `https://doi.org/${pub.doi}`, children: [new TextRun({ text: ` https://doi.org/${pub.doi}`, size: 20, font: FONT, color: '0563C1', underline: {} })] })] : []),
         ],
+        indent: { left: 300, hanging: 300 },
         spacing: { before: 100, after: 80 },
       }))
     })

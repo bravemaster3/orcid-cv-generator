@@ -6,6 +6,7 @@ import { pdfTemplates } from '../templates/pdf'
 import { generatePDF } from '../utils/pdfGenerator'
 import { generateWord } from '../utils/wordGenerator'
 import { prepareDataForTemplate } from '../utils/dataTransformer'
+import PhotoUpload from './templateSelector/PhotoUpload'
 
 function CVPreview({
   orcidData,
@@ -13,6 +14,9 @@ function CVPreview({
   selectedItems,
   template,
   profilePhoto,
+  onPhotoUpload,
+  photoEnabled,
+  onPhotoEnableToggle,
   onBack,
   onReset
 }) {
@@ -41,12 +45,11 @@ function CVPreview({
           return
         }
 
-        // Create PDF element without JSX
         const doc = createElement(PDFTemplate, { data: cvData })
         const blob = await pdf(doc).toBlob()
-        
+
         if (cancelled) return
-        
+
         const url = URL.createObjectURL(blob)
         setPdfUrl(url)
       } catch (error) {
@@ -66,7 +69,7 @@ function CVPreview({
         URL.revokeObjectURL(pdfUrl)
       }
     }
-  }, [template]) // Only regenerate if template changes, not on every data change
+  }, [template, profilePhoto])
 
   const handleDownload = async () => {
     setGenerating(true)
@@ -97,10 +100,10 @@ function CVPreview({
       <div className="card">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
               Your CV is Ready!
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               Preview and download your CV
             </p>
           </div>
@@ -143,7 +146,7 @@ function CVPreview({
         </div>
       </div>
 
-      <div className="card bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200">
+      <div className="card bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-yellow-200 dark:border-yellow-800">
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="flex-shrink-0">
             <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center">
@@ -151,10 +154,10 @@ function CVPreview({
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h3 className="text-lg font-bold text-gray-900 mb-1">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-1">
               Enjoying this tool?
             </h3>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-300">
               If this CV generator helped you, consider buying me a coffee!
             </p>
           </div>
@@ -170,24 +173,31 @@ function CVPreview({
         </div>
       </div>
 
+      <PhotoUpload
+        profilePhoto={profilePhoto}
+        onPhotoUpload={onPhotoUpload}
+        photoEnabled={photoEnabled}
+        onPhotoEnableToggle={onPhotoEnableToggle}
+      />
+
       <div className="card">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             PDF Preview
           </h3>
           {loadingPreview && (
-            <div className="text-sm text-gray-500 flex items-center gap-2">
+            <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
               Generating preview...
             </div>
           )}
         </div>
-        
-        <div className="border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+
+        <div className="border-2 border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-900">
           {loadingPreview ? (
             <div className="flex flex-col items-center justify-center h-96 gap-4">
               <Loader2 className="w-12 h-12 animate-spin text-primary-600" />
-              <p className="text-gray-600">Preparing your CV preview...</p>
+              <p className="text-gray-600 dark:text-gray-400">Preparing your CV preview...</p>
             </div>
           ) : pdfUrl ? (
             <iframe
@@ -197,11 +207,31 @@ function CVPreview({
               title="CV Preview"
             />
           ) : (
-            <div className="flex items-center justify-center h-96 text-gray-500">
+            <div className="flex items-center justify-center h-96 text-gray-500 dark:text-gray-400">
               Failed to generate preview. Please try downloading instead.
             </div>
           )}
         </div>
+      </div>
+
+      {/* Download buttons — repeated at the bottom so the user doesn't have to scroll back up */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button
+          onClick={handleDownloadWord}
+          disabled={generatingWord || loadingPreview}
+          className="btn-secondary flex items-center gap-2 w-full sm:w-auto justify-center"
+        >
+          {generatingWord ? <Loader2 className="w-5 h-5 animate-spin" /> : <FileText className="w-5 h-5" />}
+          {generatingWord ? 'Generating…' : 'Download Word'}
+        </button>
+        <button
+          onClick={handleDownload}
+          disabled={generating || loadingPreview}
+          className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center"
+        >
+          {generating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Download className="w-5 h-5" />}
+          {generating ? 'Generating…' : 'Download PDF'}
+        </button>
       </div>
 
       <div className="flex items-center justify-between">

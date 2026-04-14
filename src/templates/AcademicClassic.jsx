@@ -1,3 +1,5 @@
+import { formatAuthors } from './shared/cvData'
+
 function AcademicClassic({ data }) {
     const { personal, photo, employment, education, publications, funding } = data
   
@@ -121,7 +123,9 @@ function AcademicClassic({ data }) {
             <ol className="list-decimal ml-8 space-y-3">
               {publications.map((pub, idx) => (
                 <li key={idx} className="text-gray-800 pl-2">
-                  {pub.authors && pub.authors.length > 0 && `${pub.authors.join(', ')} `}
+                  {pub.authors && pub.authors.length > 0 && <>{formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                  seg.bold ? <strong key={i}>{seg.text}</strong> : <span key={i}>{seg.text}</span>
+                )}{' '}</>}
                   {pub.year && `(${pub.year}): `}
                   <span className="font-medium">{pub.title}</span>
                   {pub.journalTitle && <span className="italic">. {pub.journalTitle}</span>}

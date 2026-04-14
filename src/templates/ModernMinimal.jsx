@@ -1,3 +1,5 @@
+import { formatAuthors } from './shared/cvData'
+
 function ModernMinimal({ data }) {
     const { personal, photo, employment, education, publications, funding } = data
   
@@ -112,7 +114,9 @@ function ModernMinimal({ data }) {
             <div className="space-y-3">
               {publications.map((pub, idx) => (
                 <div key={idx} className="text-sm text-gray-800">
-                  {pub.authors && pub.authors.length > 0 && `${pub.authors.join(', ')} `}
+                  {pub.authors && pub.authors.length > 0 && <>{formatAuthors(pub.authors, personal?.fullName).map((seg, i) =>
+                  seg.bold ? <strong key={i}>{seg.text}</strong> : <span key={i}>{seg.text}</span>
+                )}{' '}</>}
                   {pub.year && `(${pub.year}): `}
                   <span className="font-medium text-gray-900">{pub.title}</span>
                   {pub.journalTitle && <span className="italic text-gray-700">. {pub.journalTitle}</span>}

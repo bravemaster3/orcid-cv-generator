@@ -14,67 +14,67 @@ const features = [
   { icon: Shield, text: 'No data stored — everything runs in your browser' },
   { icon: Zap, text: 'Fast — generate a CV in under 2 minutes' },
   { icon: Globe, text: 'Free and open-source, MIT licensed' },
-  { icon: Code, text: '8 templates, both PDF and Word export' },
+  { icon: Code, text: '6 templates, both PDF and Word export' },
 ]
 
 function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">About</h1>
-            <p className="text-lg text-gray-600">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">About</h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
               A free, open-source tool for turning ORCID profiles into professional CVs.
             </p>
           </div>
 
           {/* What is it */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3">What is ORCID CV Generator?</h2>
-            <p className="text-gray-600 leading-relaxed mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">What is ORCID CV Generator?</h2>
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
               ORCID CV Generator is a browser-based tool that pulls your public profile from ORCID and
               lets you build a polished, formatted CV — without manual copy-pasting. Pick which sections
               and items to include, choose a template, and download as PDF or Word.
             </p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
               It was built because maintaining a CV from an ORCID profile should not require buying
               expensive software or uploading your data to a third-party service.
             </p>
           </div>
 
           {/* Features */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Features</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Features</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {features.map(({ icon: Icon, text }, idx) => (
                 <div key={idx} className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-primary-700" />
+                  <div className="w-8 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-primary-700 dark:text-primary-400" />
                   </div>
-                  <p className="text-gray-700 text-sm leading-relaxed">{text}</p>
+                  <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{text}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Tech stack */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Tech Stack</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Tech Stack</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {techStack.map(({ name, description }) => (
-                <div key={name} className="bg-gray-50 rounded-lg p-3">
-                  <p className="font-semibold text-gray-900 text-sm">{name}</p>
-                  <p className="text-xs text-gray-500">{description}</p>
+                <div key={name} className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                  <p className="font-semibold text-gray-900 dark:text-gray-100 text-sm">{name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{description}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Open source + contribute */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Open Source</h2>
-            <p className="text-gray-600 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">Open Source</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
               This project is open-source and MIT licensed. Contributions are welcome — whether that's
               a new template, a bug fix, or an improvement to the UI.
             </p>
@@ -95,10 +95,10 @@ function AboutPage() {
           </div>
 
           {/* Support */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
             <div className="flex-1">
-              <h3 className="font-bold text-gray-900 mb-1">Enjoying this tool?</h3>
-              <p className="text-sm text-gray-700">
+              <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">Enjoying this tool?</h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300">
                 If the ORCID CV Generator has saved you time, consider buying a coffee to support development.
               </p>
             </div>
