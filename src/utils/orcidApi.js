@@ -47,10 +47,10 @@ export async function fetchOrcidData(orcidId) {
 
 async function enrichWorksWithOpenAlex(works) {
   // OpenAlex filter API accepts multiple DOIs in one request: filter=doi:url1|url2|...
-  // Batches of 100 keep URLs under ~5 KB (safe for all browsers/proxies).
+  // Batches of 25 keep URLs well under ~1.5 KB, safely within OpenAlex's filter limits.
   // All batches fire in parallel — they cover disjoint DOIs so there is no rate-limit
   // concern and no need to delay between them.
-  const BATCH_SIZE = 100
+  const BATCH_SIZE = 25
 
   const results = [...works]
   const worksWithDoi = works
